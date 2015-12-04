@@ -23,7 +23,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // 设置全局属性,该方法越早调用越好,所以放在这个方法里面最合适
     [self setupAppearance];
-    
+    /// 今天搞到3点了 我日tm的吻
     self.window = [[UIWindow alloc] init];;
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[QXYBaseTableViewController alloc] init]];
     [self.window makeKeyAndVisible];
