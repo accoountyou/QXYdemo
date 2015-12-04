@@ -14,9 +14,6 @@
 
 @interface QXYNetworkTools : NSObject
 
-/// baseUrl
-@property(nonatomic, strong)AFHTTPRequestOperationManager *afnManager;
-
 /// 用户名
 @property(nonatomic, copy) NSString *username;
 

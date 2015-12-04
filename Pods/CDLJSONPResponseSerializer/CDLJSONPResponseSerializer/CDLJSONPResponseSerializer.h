@@ -1,8 +1,6 @@
-//
-//  UIImage+AFNetworking.h
+// CDLJSONPResponseSerializer.h
 //  
-//
-//  Created by Paulo Ferreira on 08/07/15.
+// Copyright (c) 2013 Chris Lundie (http://www.lundie.ca/)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
+#import "AFURLResponseSerialization.h"
 
-#import <UIKit/UIKit.h>
+/** Error domain for CDLJSONPResponseSerializer. */
+extern NSString * const CDLJSONPResponseSerializerErrorDomain;
 
-@interface UIImage (AFNetworking)
+/** A response serializer that parses JSONP using a Javascript context. */
+@interface CDLJSONPResponseSerializer
+  : AFHTTPResponseSerializer <NSSecureCoding>
 
-+ (UIImage*) safeImageWithData:(NSData*)data;
+/**
+ Convenience constructor.
+
+ \param callback The name of the JSONP callback function.
+
+ \return A new instance of CDLJSONPResponseSerializer.
+ */
++ (instancetype)serializerWithCallback:(NSString *)callback;
+
+/** The name of the JSONP callback function. */
+@property (atomic, copy) NSString *callback;
 
 @end
-
-#endif

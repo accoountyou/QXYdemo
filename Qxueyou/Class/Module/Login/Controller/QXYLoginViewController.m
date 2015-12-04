@@ -8,6 +8,7 @@
 
 #import "QXYLoginViewController.h"
 #import "QXYNetworkTools.h"
+#import "QXYListButton.h"
 
 @interface QXYLoginViewController ()<UITextFieldDelegate>
 
@@ -32,12 +33,31 @@
     [super viewDidLoad];
     [self prepareUI];
     self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
-    self.title = @"登陆";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(clickBackButton)];
+    
+    [self setupNavigationBar];
     
     self.nameField.delegate = self;
     self.passField.delegate = self;
     [self loadUserInfo];
+}
+
+#pragma mark - 设置导航栏
+- (void)setupNavigationBar {
+    self.title = @"模拟考试";
+    QXYListButton *leftButton = [QXYListButton listButtonWithTitleName:@"返回" andImageName:@"左"];
+    [leftButton addTarget:self action:@selector(clickCancelButton) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    // 加个弹簧
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                       target:nil action:nil];
+    // 设置leftButton与左边界面的距离
+    negativeSpacer.width = - 10;
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, barItem, nil];
+}
+
+- (void)clickCancelButton {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UITextFieldDelegate

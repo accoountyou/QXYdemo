@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+@class QXYTestButton;
 
-@interface QXYTestToolBar : UIView
+@protocol QXYTestToolBarDelegate <NSObject>
+
+- (void)qxyTestToolBarClickAssignmentButton:(QXYTestButton *)button;
+- (void)qxyTestToolBarClickCommentButton:(QXYTestButton *)button;
+- (void)qxyTestToolBarClickMoreButton:(QXYTestButton *)button;
+
+@end
+
+@interface QXYTestToolBar : UIView<QXYTestToolBarDelegate>
+
+@property(nonatomic, weak) id<QXYTestToolBarDelegate> delegate;
 
 @end

@@ -88,10 +88,42 @@
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.lineView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:0.5]];
 }
 
+#pragma mark - 按钮点击事件
+- (void)clickSaveButton:(QXYTestButton *)button {
+    button.selected = !button.selected;
+    if (button.selected) {
+        [button setTitle:@"已收藏" forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"收藏2-128-72"] forState:UIControlStateNormal];
+    } else {
+        [button setTitle:@"收藏" forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"收藏111"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)clickAssignmentButton:(QXYTestButton *)button {
+    if ([self.delegate respondsToSelector:@selector(qxyTestToolBarClickAssignmentButton:)]) {
+        [self.delegate qxyTestToolBarClickAssignmentButton:button];
+    }
+}
+
+- (void)clickCommentButton:(QXYTestButton *)button {
+    if ([self.delegate respondsToSelector:@selector(qxyTestToolBarClickCommentButton:)]) {
+        [self.delegate qxyTestToolBarClickAssignmentButton:button];
+    }
+}
+
+- (void)clickMoreButton:(QXYTestButton *)button {
+    if ([self.delegate respondsToSelector:@selector(qxyTestToolBarClickMoreButton:)]) {
+        [self.delegate qxyTestToolBarClickAssignmentButton:button];
+    }
+}
+
+
 #pragma mark - 懒加载
 - (QXYTestButton *)saveButton {
     if (_saveButton == nil) {
         _saveButton = [QXYTestButton testButtonWithTitleName:@"收藏" andImageName:@"收藏111"];
+        [_saveButton addTarget:self action:@selector(clickSaveButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _saveButton;
 }
@@ -99,6 +131,7 @@
 - (QXYTestButton *)assignmentButton {
     if (_assignmentButton == nil) {
         _assignmentButton = [QXYTestButton testButtonWithTitleName:@"交卷" andImageName:@"交卷1"];
+        [_assignmentButton addTarget:self action:@selector(clickAssignmentButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _assignmentButton;
 }
@@ -113,6 +146,7 @@
 - (QXYTestButton *)commentButton {
     if (_commentButton == nil) {
         _commentButton = [QXYTestButton testButtonWithTitleName:@"评论" andImageName:@"进度"];
+        [_commentButton addTarget:self action:@selector(clickCommentButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _commentButton;
 }
@@ -120,6 +154,7 @@
 - (QXYTestButton *)moreButton {
     if (_moreButton == nil) {
         _moreButton = [QXYTestButton testButtonWithTitleName:@"更多" andImageName:@"移除题目"];
+        [_moreButton addTarget:self action:@selector(clickMoreButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _moreButton;
 }
