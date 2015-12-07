@@ -23,6 +23,16 @@
 /// 登陆
 - (void)login;
 
+/**
+ *  加载试题列表的方法
+ */
+- (void)loadTestListFinished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail;
+
+/**
+ *  加载试题的方法
+ */
+- (void)loadTestWithGroupId:(NSString *)groupId finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail;
+
 /// 类方法构造单利对象
 + (instancetype)sharedTools;
 

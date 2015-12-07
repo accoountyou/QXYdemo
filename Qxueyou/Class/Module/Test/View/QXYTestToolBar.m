@@ -24,7 +24,10 @@
 /// 分割线
 @property (nonatomic, strong) UIView *lineView;
 
-
+/// 测试时间
+@property(nonatomic, assign) int testTime;
+/// 计时器
+@property(nonatomic, strong) NSTimer *timer;
 
 @end
 
@@ -33,8 +36,24 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self prepareUI];
+        self.testTime = 45 * 60;
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
     }
     return self;
+}
+
+- (void)updateTime {
+    self.testTime--;
+    static NSString *minString = nil;
+    static NSString *secondString = nil;
+    minString = self.testTime/60 < 10 ? [NSString stringWithFormat:@"0%d",self.testTime/60] : [NSString stringWithFormat:@"%d",self.testTime/60];
+    secondString = self.testTime%60 < 10 ? [NSString stringWithFormat:@"0%d",self.testTime%60] : [NSString stringWithFormat:@"%d",self.testTime%60];
+    NSString *newTime = [NSString stringWithFormat:@"%@:%@",minString,secondString];
+    [self.timeButton setTitle:newTime forState:UIControlStateNormal];
+}
+
+- (void)dealloc {
+    [self.timer invalidate];
 }
 
 /**
@@ -138,7 +157,8 @@
 
 - (QXYTestButton *)timeButton {
     if (_timeButton == nil) {
-        _timeButton = [QXYTestButton testButtonWithTitleName:@"时间" andImageName:@"计时"];
+        _timeButton = [QXYTestButton testButtonWithTitleName:@"45:00" andImageName:@"计时"];
+        [_timeButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     }
     return _timeButton;
 }

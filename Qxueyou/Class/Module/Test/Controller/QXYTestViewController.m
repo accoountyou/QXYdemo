@@ -9,11 +9,15 @@
 #import "QXYTestViewController.h"
 #import "QXYTestToolBar.h"
 #import "QXYListButton.h"
+#import "QXYTest.h"
+#import "QXYTextTableView.h"
 
 @interface QXYTestViewController ()<QXYTestToolBarDelegate>
 
 /// 工具栏
-@property (nonatomic, strong) QXYTestToolBar *toolBar;
+@property(nonatomic, strong) QXYTestToolBar *toolBar;
+@property(nonatomic, strong) UIScrollView *scrollView;
+@property(nonatomic, strong) QXYTextTableView *textTabelView;
 
 @end
 
@@ -24,12 +28,22 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupNavigationBar];
     [self prepareUI];
-    
+    // 加载数据
+    [self loadTest];
 }
+
+
+
+#pragma mark - 加载数据
+- (void)loadTest {
+    QXYTest *test = [QXYTest sharedTest];
+    [test loadTestWithGroupId:self.list.groupId];
+}
+
 
 #pragma mark - 设置导航栏
 - (void)setupNavigationBar {
-    self.title = @"正在测试";
+    self.title = self.list.name;
     QXYListButton *leftButton = [QXYListButton listButtonWithTitleName:@"返回" andImageName:@"左"];
     [leftButton addTarget:self action:@selector(clickCancelButton) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
@@ -46,10 +60,21 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)dealloc {
+    NSLog(@"delloc");
+}
+
 /**
  *  准备UI
  */
 - (void)prepareUI {
+    
+    self.scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [self.view addSubview:self.scrollView];
+    self.scrollView.backgroundColor = [UIColor redColor];
+    [self.scrollView addSubview:self.textTabelView];
+    
+    
     self.toolBar = [[QXYTestToolBar alloc] init];
     [self.view addSubview:self.toolBar];
     // 设置代理
@@ -65,7 +90,7 @@
 
 #pragma mark - 工具栏的代理方法
 - (void)qxyTestToolBarClickAssignmentButton:(QXYTestButton *)button {
-    NSLog(@"sadfasdfsadfas");
+    
 }
 
 - (void)qxyTestToolBarClickCommentButton:(QXYTestButton *)button {
@@ -74,6 +99,13 @@
 
 - (void)qxyTestToolBarClickMoreButton:(QXYTestButton *)button {
     
+}
+
+- (QXYTextTableView *)textTabelView {
+    if (_textTabelView == nil) {
+        _textTabelView = [[QXYTextTableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    }
+    return _textTabelView;
 }
 
 @end

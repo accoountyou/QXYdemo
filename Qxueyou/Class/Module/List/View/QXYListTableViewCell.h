@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QXYTestList.h"
 
 @interface QXYListTableViewCell : UITableViewCell
+
+/// 试题模型
+@property(nonatomic, strong) QXYTestList *list;
+
 
 @end

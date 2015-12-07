@@ -9,8 +9,12 @@
 /* Begin PBXBuildFile section */
 		693A77F11C112F9200AC9E01 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 693A77F01C112F9200AC9E01 /* SSKeychain.m */; };
 		693A77F51C11362F00AC9E01 /* NSObject+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 693A77F41C11362F00AC9E01 /* NSObject+Log.m */; };
+		698950B21C15659700A63032 /* QXYTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 698950B11C15659700A63032 /* QXYTest.m */; };
+		698950B51C1583EF00A63032 /* QXYTextTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 698950B41C1583EF00A63032 /* QXYTextTableView.m */; };
+		698950B81C158A3000A63032 /* QXYTestQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 698950B71C158A3000A63032 /* QXYTestQuestion.m */; };
 		69938BFF1C117B6500C1042B /* QXYListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69938BFE1C117B6500C1042B /* QXYListTableViewCell.m */; };
 		69938C021C118F2200C1042B /* QXYListButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 69938C011C118F2200C1042B /* QXYListButton.m */; };
+		69B223451C151DDC003CB18D /* QXYTestList.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B223441C151DDC003CB18D /* QXYTestList.m */; };
 		69C7B1AC1C0FCE38003FE64C /* QXYLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C7B1AB1C0FCE38003FE64C /* QXYLoginViewController.m */; };
 		69C7B1B01C0FD66A003FE64C /* QXYNetworkTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C7B1AF1C0FD66A003FE64C /* QXYNetworkTools.m */; };
 		69C7B1BD1C10292A003FE64C /* QXYBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C7B1BC1C10292A003FE64C /* QXYBaseTableViewController.m */; };
@@ -50,10 +54,18 @@
 		693A77F01C112F9200AC9E01 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		693A77F31C11362F00AC9E01 /* NSObject+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Log.h"; sourceTree = "<group>"; };
 		693A77F41C11362F00AC9E01 /* NSObject+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Log.m"; sourceTree = "<group>"; };
+		698950B01C15659700A63032 /* QXYTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QXYTest.h; path = Qxueyou/Class/Model/QXYTest.h; sourceTree = SOURCE_ROOT; };
+		698950B11C15659700A63032 /* QXYTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QXYTest.m; path = Qxueyou/Class/Model/QXYTest.m; sourceTree = SOURCE_ROOT; };
+		698950B31C1583EF00A63032 /* QXYTextTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYTextTableView.h; sourceTree = "<group>"; };
+		698950B41C1583EF00A63032 /* QXYTextTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYTextTableView.m; sourceTree = "<group>"; };
+		698950B61C158A3000A63032 /* QXYTestQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYTestQuestion.h; sourceTree = "<group>"; };
+		698950B71C158A3000A63032 /* QXYTestQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYTestQuestion.m; sourceTree = "<group>"; };
 		69938BFD1C117B6500C1042B /* QXYListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYListTableViewCell.h; sourceTree = "<group>"; };
 		69938BFE1C117B6500C1042B /* QXYListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYListTableViewCell.m; sourceTree = "<group>"; };
 		69938C001C118F2200C1042B /* QXYListButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYListButton.h; sourceTree = "<group>"; };
 		69938C011C118F2200C1042B /* QXYListButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYListButton.m; sourceTree = "<group>"; };
+		69B223431C151DDC003CB18D /* QXYTestList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QXYTestList.h; path = Qxueyou/Class/Model/QXYTestList.h; sourceTree = SOURCE_ROOT; };
+		69B223441C151DDC003CB18D /* QXYTestList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QXYTestList.m; path = Qxueyou/Class/Model/QXYTestList.m; sourceTree = SOURCE_ROOT; };
 		69C7B1AA1C0FCE38003FE64C /* QXYLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYLoginViewController.h; sourceTree = "<group>"; };
 		69C7B1AB1C0FCE38003FE64C /* QXYLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYLoginViewController.m; sourceTree = "<group>"; };
 		69C7B1AE1C0FD66A003FE64C /* QXYNetworkTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYNetworkTools.h; sourceTree = "<group>"; };
@@ -149,12 +161,24 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		69B223421C151817003CB18D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				69B223431C151DDC003CB18D /* QXYTestList.h */,
+				69B223441C151DDC003CB18D /* QXYTestList.m */,
+				698950B01C15659700A63032 /* QXYTest.h */,
+				698950B11C15659700A63032 /* QXYTest.m */,
+			);
+			name = Model;
+			path = Library/Model;
+			sourceTree = "<group>";
+		};
 		69C7B1A01C0FCDF2003FE64C /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				69C7B1B61C1027EE003FE64C /* Model */,
 				69C7B1B41C1027EE003FE64C /* Extension */,
 				69C7B1B51C1027EE003FE64C /* Library */,
+				69B223421C151817003CB18D /* Model */,
 				69C7B1A11C0FCDF2003FE64C /* Module */,
 				69C7B1AD1C0FD62E003FE64C /* Tools */,
 			);
@@ -263,13 +287,6 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
-		69C7B1B61C1027EE003FE64C /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		69C7B1B71C102852003FE64C /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +355,10 @@
 				69C7B1C91C102D04003FE64C /* QXYTestToolBar.m */,
 				69C7B1CB1C1032AE003FE64C /* QXYTestButton.h */,
 				69C7B1CC1C1032AE003FE64C /* QXYTestButton.m */,
+				698950B31C1583EF00A63032 /* QXYTextTableView.h */,
+				698950B41C1583EF00A63032 /* QXYTextTableView.m */,
+				698950B61C158A3000A63032 /* QXYTestQuestion.h */,
+				698950B71C158A3000A63032 /* QXYTestQuestion.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -608,11 +629,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				698950B81C158A3000A63032 /* QXYTestQuestion.m in Sources */,
 				69938BFF1C117B6500C1042B /* QXYListTableViewCell.m in Sources */,
 				69C7B1CA1C102D04003FE64C /* QXYTestToolBar.m in Sources */,
+				69B223451C151DDC003CB18D /* QXYTestList.m in Sources */,
 				69D52B621C0EE1DC0018928F /* AppDelegate.m in Sources */,
 				693A77F51C11362F00AC9E01 /* NSObject+Log.m in Sources */,
 				69C7B1B01C0FD66A003FE64C /* QXYNetworkTools.m in Sources */,
+				698950B21C15659700A63032 /* QXYTest.m in Sources */,
 				69C7B1C01C1029FD003FE64C /* QXYVisitorView.m in Sources */,
 				69C7B1CD1C1032AE003FE64C /* QXYTestButton.m in Sources */,
 				69C7B1C71C102C6C003FE64C /* QXYTestViewController.m in Sources */,
@@ -621,6 +645,7 @@
 				693A77F11C112F9200AC9E01 /* SSKeychain.m in Sources */,
 				FEE957161C10FF18006698AA /* QXYListTableViewController.m in Sources */,
 				69938C021C118F2200C1042B /* QXYListButton.m in Sources */,
+				698950B51C1583EF00A63032 /* QXYTextTableView.m in Sources */,
 				69C7B1BD1C10292A003FE64C /* QXYBaseTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

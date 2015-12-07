@@ -25,7 +25,7 @@
     // 设置全局属性,该方法越早调用越好,所以放在这个方法里面最合适
     [self setupAppearance];
     self.window = [[UIWindow alloc] init];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[QXYBaseTableViewController alloc] init]];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[QXYListTableViewController alloc] init]];
     [self.window makeKeyAndVisible];
     // 注册登录成功通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setRootController:) name:QXYLoginSuccessNotification object:nil];

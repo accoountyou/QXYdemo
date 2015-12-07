@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QXYTestList.h"
 
 @interface QXYTestViewController : UIViewController
+
+@property(nonatomic, strong) QXYTestList *list;
 
 @end

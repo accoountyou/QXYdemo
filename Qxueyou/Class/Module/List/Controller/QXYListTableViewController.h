@@ -10,4 +10,7 @@
 
 @interface QXYListTableViewController : UITableViewController
 
+/// 回调block
+@property(nonatomic, copy) void (^relate)(NSArray *listArray);
+
 @end

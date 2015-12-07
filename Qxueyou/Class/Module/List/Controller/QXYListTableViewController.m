@@ -11,8 +11,12 @@
 #import "QXYListTableViewCell.h"
 #import "QXYTestViewController.h"
 #import "QXYListButton.h"
+#import "QXYTestList.h"
 
 @interface QXYListTableViewController ()
+
+/// 试题模型数组
+@property(nonatomic, strong) NSArray *modelArray;
 
 @end
 
@@ -24,7 +28,22 @@
     [self.tableView registerClass:[QXYListTableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
     // 隐藏分割线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    // 加载数据 回调block
+    [self loadModelArray];
 }
+
+#pragma mark - 加载数据 回调block
+- (void)loadModelArray {
+    __weak typeof(self) weakSelf = self;
+    self.relate = ^(NSArray *listArray){
+        weakSelf.modelArray = listArray;
+        [weakSelf.tableView reloadData];
+    };
+    QXYTestList *list = [QXYTestList sharedTestList];
+    list.relate = self.relate;
+    [list loadTestList];
+}
+
 
 #pragma mark - 设置导航栏
 - (void)setupNavigationBar {
@@ -55,17 +74,20 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.modelArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
-    
+    QXYListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+    QXYTestList *list = self.modelArray[indexPath.row];
+    cell.list = list;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.navigationController pushViewController:[[QXYTestViewController alloc] init] animated:YES];
+    QXYTestViewController *testView = [[QXYTestViewController alloc] init];
+    [self.navigationController pushViewController:testView animated:YES];
+    testView.list = self.modelArray[indexPath.row];
 }
 
 
