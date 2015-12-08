@@ -16,6 +16,8 @@
 @property(nonatomic, copy) NSString *allCount;
 /// 试题groupId
 @property(nonatomic, copy) NSString *groupId;
+/// 题型
+@property(nonatomic, copy) NSString *type;
 /// 回调block
 @property(nonatomic, copy) void (^relate)(NSArray *listArray);
 

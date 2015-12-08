@@ -41,12 +41,25 @@
 
 #pragma mark - 字典转模型
 - (void)loadTestWithGroupId:(NSString *)groupId {
+    [SVProgressHUD showWithStatus:@"正在努力加载" maskType:SVProgressHUDMaskTypeBlack];
     QXYNetworkTools *tools = [QXYNetworkTools sharedTools];
+    NSMutableArray *Marray = [NSMutableArray array];
     [tools loadTestWithGroupId:groupId finished:^(id success) {
-//        NSLog(@"%@",success);
+        for (NSDictionary *dict in success) {
+            QXYTest *listModel = [[QXYTest alloc] init];
+            [listModel setValuesForKeysWithDictionary:dict];
+            [Marray addObject:listModel];
+        }
+        [SVProgressHUD dismiss];
+        self.relate(Marray);
     } fail:^(NSError *error) {
         NSLog(@"%@",error);
     }];
 }
+
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+    
+}
+
 
 @end

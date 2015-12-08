@@ -15,8 +15,10 @@
 /// 选项
 @property(nonatomic, strong) NSArray *options;
 /// 题型
-@property(nonatomic, copy) NSString *type;
-/// 
+@property(nonatomic, assign) int type;
+
+/// 回调block
+@property(nonatomic, copy) void (^relate)(NSArray *listArray);
 
 #pragma mark - 字典转模型
 - (void)loadTestWithGroupId:(NSString *)groupId;

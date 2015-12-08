@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QXYTest.h"
 
 @interface QXYTestQuestion : UIView
+
+
+@property(nonatomic, strong) QXYTest *test;
 
 @end

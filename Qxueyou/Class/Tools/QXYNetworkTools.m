@@ -73,9 +73,8 @@
 /**
  *  加载试题的方法
  */
-//http://tt.iqtogether.com/qxueyou/exercise/Exercise/examsExerList/297ebe0e51436c880151471f35ca1dbe?exerciseRecordId=&exerciseGroupId=297ebe0e51436c880151471f35ca1dbe&updateTime=&callback=callback
 - (void)loadTestWithGroupId:(NSString *)groupId finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
-    NSString *urlString = @"http://tt.iqtogether.com/qxueyou/exercise/Exercise/examsExerList/297ebe0e51436c880151471f35ca1dbe";
+    NSString *urlString = [NSString stringWithFormat:@"http://tt.iqtogether.com/qxueyou/exercise/Exercise/examsExerList/%@",groupId];
     NSDictionary *parameters = @{@"exerciseRecordId": @"", @"exerciseGroupId": groupId, @"updateTime": @"", @"callback": @"callback"};
     [self requestWithGetUrl:urlString parameters:parameters finished:^(id success) {
         finished(success);

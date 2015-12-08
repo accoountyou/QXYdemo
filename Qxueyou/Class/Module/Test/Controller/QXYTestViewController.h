@@ -11,6 +11,9 @@
 
 @interface QXYTestViewController : UIViewController
 
+/// 回调block
+@property(nonatomic, copy) void (^relate)(NSArray *listArray);
+
 @property(nonatomic, strong) QXYTestList *list;
 
 @end
