@@ -16,6 +16,8 @@
 @property(nonatomic, strong) NSArray *options;
 /// 题型
 @property(nonatomic, assign) int type;
+/// 正确答案
+@property(nonatomic, copy) NSDictionary *analisisResult;
 
 /// 回调block
 @property(nonatomic, copy) void (^relate)(NSArray *listArray);

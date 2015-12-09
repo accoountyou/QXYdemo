@@ -15,6 +15,7 @@
 @property(nonatomic, strong) UILabel *question;
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSArray *modelArray;
+@property(nonatomic, strong) QXYAnalysisView *analysisView;
 
 ///答案选项
 @property(nonatomic, copy) NSString *answerAll;
@@ -68,6 +69,19 @@
 
     self.modelArray = test.options;
     [self.tableView reloadData];
+    
+    self.analysisView = [[QXYAnalysisView alloc] init];
+    __weak typeof(self) weakSelf = self;
+    self.viewHight = ^(CGFloat hight){
+        weakSelf.analysisView.frame = CGRectMake(0, 0, 1, hight);
+        weakSelf.analysisView.backgroundColor = [UIColor redColor];
+        weakSelf.tableView.tableFooterView = weakSelf.analysisView;
+    };
+    self.analysisView.viewHight = self.viewHight;
+    self.analysisView.test = self.test;
+    /// 让tableview一直显示在顶部
+    [self.tableView setContentOffset:CGPointZero animated:NO];
+    
     [self setNeedsDisplay];
 }
 
@@ -88,8 +102,6 @@
         _tableView.delegate = self;
         _tableView.bounces = NO;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        UIView *aaaa = [[QXYAnalysisView alloc] init];
-        _tableView.tableFooterView = aaaa;
     }
     return _tableView;
 }

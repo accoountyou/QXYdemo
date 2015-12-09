@@ -14,4 +14,7 @@
 
 @property(nonatomic, strong) QXYTest *test;
 
+/// 回调block
+@property(nonatomic, copy) void (^viewHight)(CGFloat hight);
+
 @end
