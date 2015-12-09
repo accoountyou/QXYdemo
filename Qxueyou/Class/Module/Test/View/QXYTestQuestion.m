@@ -27,6 +27,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self prepareUI];
+        self.backgroundColor = [UIColor redColor];
     }
     return self;
 }
@@ -60,7 +61,6 @@
     } else {
         headSting = @"[判断]";
         titleString = [NSString stringWithFormat:@"%@ %@", headSting, test.title];
-
     }
     NSMutableAttributedString *noteString = [[NSMutableAttributedString alloc] initWithString:titleString];
     NSRange blueRange = NSMakeRange(0, [[noteString string] rangeOfString:headSting].length);
@@ -154,12 +154,8 @@
 
 - (CGFloat)getSizeWithContent:(NSString *)content withFont:(UIFont *)font {
     NSDictionary *dict = [NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
-    CGSize size = [content boundingRectWithSize:CGSizeMake(self.frame.size.width - 70, 1000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict context:nil].size;
-    if (size.height > 22) {
+    CGSize size = [content boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 70, 1000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict context:nil].size;
         return size.height + 25;
-    }
-    return 55;
 }
-
 
 @end

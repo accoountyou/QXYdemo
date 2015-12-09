@@ -11,6 +11,8 @@
 #import "QXYListButton.h"
 #import "QXYTest.h"
 #import "QXYTestQuestion.h"
+#import "QXYSelectTest.h"
+#import "QXYAssess.h"
 
 @interface QXYTestViewController ()<QXYTestToolBarDelegate, UIScrollViewDelegate>
 
@@ -81,16 +83,22 @@
     NSLog(@"delloc");
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSLog(@"%@",NSStringFromCGRect(self.testQuestionMiddle.frame));
+}
+
 /**
  *  准备UI
  */
 - (void)prepareUI {
     
-    self.scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44)];;
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * 3, 0);
     self.scrollView.contentOffset = CGPointMake(self.scrollView.frame.size.width, 0);
     self.scrollView.pagingEnabled = YES;
     self.scrollView.delegate = self;
+    self.scrollView.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.testQuestionLeft];
     [self.scrollView addSubview:self.testQuestionMiddle];
@@ -131,11 +139,11 @@
 }
 
 - (void)qxyTestToolBarClickCommentButton:(QXYTestButton *)button {
-    
+    [self.navigationController pushViewController:[[QXYAssess alloc] init] animated:YES];
 }
 
 - (void)qxyTestToolBarClickMoreButton:(QXYTestButton *)button {
-    
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[[QXYSelectTest alloc] init]] animated:YES completion:nil];
 }
 
 #pragma mark - 监听scrollview发生滚动
@@ -167,21 +175,21 @@
 #pragma mark - 懒加载
 - (QXYTestQuestion *)testQuestionLeft {
     if (_testQuestionLeft == nil) {
-        _testQuestionLeft = [[QXYTestQuestion alloc] initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 64 - 44)];
+        _testQuestionLeft = [[QXYTestQuestion alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44)];
     }
     return _testQuestionLeft;
 }
 
 - (QXYTestQuestion *)testQuestionMiddle {
     if (_testQuestionMiddle == nil) {
-        _testQuestionMiddle = [[QXYTestQuestion alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 64 - 44)];
+        _testQuestionMiddle = [[QXYTestQuestion alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44)];
     }
     return _testQuestionMiddle;
 }
 
 - (QXYTestQuestion *)testQuestionRight {
     if (_testQuestionRight == nil) {
-        _testQuestionRight = [[QXYTestQuestion alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width * 2, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 64 - 44)];
+        _testQuestionRight = [[QXYTestQuestion alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width * 2, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44)];
     }
     return _testQuestionRight;
 }

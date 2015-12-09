@@ -12,23 +12,6 @@
 
 @implementation QXYTest
 
-
-//- (void)loadTestList {
-//    [SVProgressHUD showWithStatus:@"正在努力加载" maskType:SVProgressHUDMaskTypeBlack];
-//    QXYNetworkTools *tools = [QXYNetworkTools sharedTools];
-//    NSMutableArray *Marray = [NSMutableArray array];
-//    [tools loadTestListFinished:^(id success) {
-//        for (NSDictionary *dict in success) {
-//            QXYTest *listModel = [[QXYTest alloc] init];
-//            [listModel setValuesForKeysWithDictionary:dict];
-//            [Marray addObject:listModel];
-//        }
-//        [SVProgressHUD dismiss];
-//    } fail:^(NSError *error) {
-//        NSLog(@"error");
-//    }];
-//}
-
 /// 类方法构造单利对象
 + (instancetype)sharedTest {
     static id instance;

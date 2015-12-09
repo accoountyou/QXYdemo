@@ -127,13 +127,13 @@
 
 - (void)clickCommentButton:(QXYTestButton *)button {
     if ([self.delegate respondsToSelector:@selector(qxyTestToolBarClickCommentButton:)]) {
-        [self.delegate qxyTestToolBarClickAssignmentButton:button];
+        [self.delegate qxyTestToolBarClickCommentButton:button];
     }
 }
 
 - (void)clickMoreButton:(QXYTestButton *)button {
     if ([self.delegate respondsToSelector:@selector(qxyTestToolBarClickMoreButton:)]) {
-        [self.delegate qxyTestToolBarClickAssignmentButton:button];
+        [self.delegate qxyTestToolBarClickMoreButton:button];
     }
 }
 

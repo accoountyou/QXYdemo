@@ -27,6 +27,9 @@
 		69D52B6A1C0EE1DC0018928F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69D52B691C0EE1DC0018928F /* Assets.xcassets */; };
 		69D52B781C0EE1DC0018928F /* QxueyouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D52B771C0EE1DC0018928F /* QxueyouTests.m */; };
 		69D52B831C0EE1DC0018928F /* QxueyouUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D52B821C0EE1DC0018928F /* QxueyouUITests.m */; };
+		69F3C3EE1C1801840098C8AB /* QXYFmdbTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F3C3ED1C1801840098C8AB /* QXYFmdbTools.m */; };
+		69F3C3F71C1819660098C8AB /* QXYSelectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F3C3F61C1819660098C8AB /* QXYSelectTest.m */; };
+		69F3C3FA1C1823590098C8AB /* QXYAssess.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F3C3F91C1823590098C8AB /* QXYAssess.m */; };
 		8A241CDE4F897ED3ABCD83CA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ABA77F7DA4200F4466C483C /* libPods.a */; };
 		FEE957161C10FF18006698AA /* QXYListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE957151C10FF17006698AA /* QXYListTableViewController.m */; };
 /* End PBXBuildFile section */
@@ -92,6 +95,12 @@
 		69D52B7E1C0EE1DC0018928F /* QxueyouUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QxueyouUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D52B821C0EE1DC0018928F /* QxueyouUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QxueyouUITests.m; sourceTree = "<group>"; };
 		69D52B841C0EE1DC0018928F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69F3C3EC1C1801840098C8AB /* QXYFmdbTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYFmdbTools.h; sourceTree = "<group>"; };
+		69F3C3ED1C1801840098C8AB /* QXYFmdbTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYFmdbTools.m; sourceTree = "<group>"; };
+		69F3C3F51C1819660098C8AB /* QXYSelectTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QXYSelectTest.h; path = ../View/QXYSelectTest.h; sourceTree = "<group>"; };
+		69F3C3F61C1819660098C8AB /* QXYSelectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QXYSelectTest.m; path = ../View/QXYSelectTest.m; sourceTree = "<group>"; };
+		69F3C3F81C1823590098C8AB /* QXYAssess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYAssess.h; sourceTree = "<group>"; };
+		69F3C3F91C1823590098C8AB /* QXYAssess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYAssess.m; sourceTree = "<group>"; };
 		7ABA77F7DA4200F4466C483C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7797B5FA318AA31A1F81ACE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FEE957141C10FF17006698AA /* QXYListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYListTableViewController.h; sourceTree = "<group>"; };
@@ -266,6 +275,8 @@
 			children = (
 				69C7B1AE1C0FD66A003FE64C /* QXYNetworkTools.h */,
 				69C7B1AF1C0FD66A003FE64C /* QXYNetworkTools.m */,
+				69F3C3EC1C1801840098C8AB /* QXYFmdbTools.h */,
+				69F3C3ED1C1801840098C8AB /* QXYFmdbTools.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -337,6 +348,10 @@
 			children = (
 				69C7B1C51C102C6C003FE64C /* QXYTestViewController.h */,
 				69C7B1C61C102C6C003FE64C /* QXYTestViewController.m */,
+				69F3C3F51C1819660098C8AB /* QXYSelectTest.h */,
+				69F3C3F61C1819660098C8AB /* QXYSelectTest.m */,
+				69F3C3F81C1823590098C8AB /* QXYAssess.h */,
+				69F3C3F91C1823590098C8AB /* QXYAssess.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -631,6 +646,7 @@
 			files = (
 				698950B81C158A3000A63032 /* QXYTestQuestion.m in Sources */,
 				69938BFF1C117B6500C1042B /* QXYListTableViewCell.m in Sources */,
+				69F3C3EE1C1801840098C8AB /* QXYFmdbTools.m in Sources */,
 				69C7B1CA1C102D04003FE64C /* QXYTestToolBar.m in Sources */,
 				69CFC0B41C16DB1C00EE6E09 /* QXYAnalysisView.m in Sources */,
 				69B223451C151DDC003CB18D /* QXYTestList.m in Sources */,
@@ -641,9 +657,11 @@
 				69C7B1C01C1029FD003FE64C /* QXYVisitorView.m in Sources */,
 				69C7B1CD1C1032AE003FE64C /* QXYTestButton.m in Sources */,
 				69C7B1C71C102C6C003FE64C /* QXYTestViewController.m in Sources */,
+				69F3C3FA1C1823590098C8AB /* QXYAssess.m in Sources */,
 				69C7B1AC1C0FCE38003FE64C /* QXYLoginViewController.m in Sources */,
 				69D52B5F1C0EE1DC0018928F /* main.m in Sources */,
 				693A77F11C112F9200AC9E01 /* SSKeychain.m in Sources */,
+				69F3C3F71C1819660098C8AB /* QXYSelectTest.m in Sources */,
 				FEE957161C10FF18006698AA /* QXYListTableViewController.m in Sources */,
 				69938C021C118F2200C1042B /* QXYListButton.m in Sources */,
 				69C7B1BD1C10292A003FE64C /* QXYBaseTableViewController.m in Sources */,

@@ -28,6 +28,7 @@
     QXYNetworkTools *tools = [QXYNetworkTools sharedTools];
     NSMutableArray *Marray = [NSMutableArray array];
     [tools loadTestListFinished:^(id success) {
+        NSArray *successArray = (NSArray *)success;
         for (NSDictionary *dict in success) {
             QXYTestList *listModel = [[QXYTestList alloc] init];
             [listModel setValuesForKeysWithDictionary:dict];
