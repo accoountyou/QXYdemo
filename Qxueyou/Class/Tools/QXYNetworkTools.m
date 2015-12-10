@@ -77,7 +77,56 @@
     NSString *urlString = [NSString stringWithFormat:@"http://tt.iqtogether.com/qxueyou/exercise/Exercise/examsExerList/%@",groupId];
     NSDictionary *parameters = @{@"exerciseRecordId": @"", @"exerciseGroupId": groupId, @"updateTime": @"", @"callback": @"callback"};
     [self requestWithGetUrl:urlString parameters:parameters finished:^(id success) {
-        finished(success);
+
+        NSMutableArray *arrayM = [NSMutableArray array];
+        
+        static NSString *analysis = nil;
+        static NSString *imgs = nil;
+        
+        for (NSDictionary *dict in success) {
+            
+            NSMutableArray *arraySmall = [NSMutableArray array];
+            for (NSDictionary *dictSmall in dict[@"options"]) {
+                NSDictionary *dict_Small = @{@"optionOrder": dictSmall[@"optionOrder"], @"content": dictSmall[@"content"]};
+                [arraySmall addObject:dict_Small];
+            }
+
+            NSDictionary *dictMiddle = dict[@"analisisResult"];
+            if ([dictMiddle[@"analysis"] isKindOfClass:[NSNull class]]) {
+                analysis = @"NO";
+            } else {
+                analysis = dictMiddle[@"analysis"];
+            }
+            NSDictionary *dict_Middle = @{
+                                          @"allAccuracy": dictMiddle[@"allAccuracy"],
+                                          @"analysis": analysis,
+                                          @"submitAllNumber": dictMiddle[@"allAccuracy"],
+                                          @"accuracy": dictMiddle[@"allAccuracy"],
+                                          @"submitNumber": dictMiddle[@"allAccuracy"],
+                                          @"submitErrorNumber": dictMiddle[@"allAccuracy"],
+                                          @"correctAnswers": dictMiddle[@"correctAnswers"],
+                                          @"isSubmitAnswer": dictMiddle[@"isSubmitAnswer"]
+                                          };
+
+            
+            if ([dict[@"imgs"] isKindOfClass:[NSNull class]]) {
+                imgs = @"NO";
+            } else {
+                imgs = dict[@"imgs"];
+            }
+            NSDictionary *dictBig = @{@"title": dict[@"title"], @"updateTime": dict[@"updateTime"], @"type": dict[@"type"], @"options": arraySmall, @"analisisResult": dict_Middle, @"imgs": imgs};
+            [arrayM addObject:dictBig];
+        }
+        
+        // 沙盒目录
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        // 文件路径
+        NSString *filename = [path stringByAppendingPathComponent:[groupId stringByAppendingString:@".plist"]];
+        // 写入文件
+        [arrayM writeToFile:filename atomically:YES];
+        
+        finished(arrayM);
+        
     } fail:^(NSError *error) {
         fail(error);
     }];

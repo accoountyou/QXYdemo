@@ -40,7 +40,7 @@
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[LineView]-10-|" options:0 metrics:nil views:@{@"LineView": self.question}]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[LineView]" options:0 metrics:nil views:@{@"LineView": self.question}]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-74-[LineView]" options:0 metrics:nil views:@{@"LineView": self.question}]];
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[LineView]-0-|" options:0 metrics:nil views:@{@"LineView": self.tableView}]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.question attribute:NSLayoutAttributeBottom multiplier:1 constant:10]];

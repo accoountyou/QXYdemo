@@ -63,12 +63,8 @@
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-30-[LineView]-10-|" options:0 metrics:nil views:@{@"LineView": self.analysisMore}]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.analysisMore attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.analysisLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:5]];
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.analysisMore attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    
     [self layoutIfNeeded];
-    NSLog(@"%f",CGRectGetMaxY(self.answerMore.frame));
-    NSLog(@"%f",CGRectGetMaxY(self.countMore.frame));
-    NSLog(@"%f",CGRectGetMaxY(self.analysisMore.frame));
-    NSLog(@"%f",CGRectGetMaxY(self.frame));
 }
 
 - (void)setTest:(QXYTest *)test {
@@ -110,13 +106,12 @@
     CGFloat countF = 0;
     countF = [self getSizeWithContent:countAll withFont:[UIFont systemFontOfSize:16]];
     CGFloat analisisF = 0;
-    if (![analisisResult[@"analysis"] isKindOfClass:[NSNull class]]) {
+    if (![analisisResult[@"analysis"] isEqualToString:@"NO"]) {
         self.analysisMore.text = analisisResult[@"analysis"];
     }
     analisisF = [self getSizeWithContent:self.analysisMore.text withFont:[UIFont systemFontOfSize:16]];
     CGFloat H = answerF + countF + analisisF + 150;
     self.viewHight(H);
-    NSLog(@"%f-%f-%f-%f",answerF,countF,analisisF,H);
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {

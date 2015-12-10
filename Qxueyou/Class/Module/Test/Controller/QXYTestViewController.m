@@ -83,22 +83,18 @@
     NSLog(@"delloc");
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSLog(@"%@",NSStringFromCGRect(self.testQuestionMiddle.frame));
-}
-
 /**
  *  准备UI
  */
 - (void)prepareUI {
     
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44)];;
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];;
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * 3, 0);
     self.scrollView.contentOffset = CGPointMake(self.scrollView.frame.size.width, 0);
     self.scrollView.pagingEnabled = YES;
     self.scrollView.delegate = self;
     self.scrollView.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:[[UIScrollView alloc] initWithFrame:CGRectZero]];
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.testQuestionLeft];
     [self.scrollView addSubview:self.testQuestionMiddle];
