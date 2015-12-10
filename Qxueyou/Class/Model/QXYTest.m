@@ -32,19 +32,21 @@
     NSArray *array = [[NSArray alloc] initWithContentsOfFile:filename];
     // 模型数组
     NSMutableArray *Marray = [NSMutableArray array];
-    
+    // 是否有更新
+    static NSString *updateTimeS = @"";
     if (array) {
-        for (NSDictionary *dict in array) {
-            QXYTest *listModel = [[QXYTest alloc] init];
-            [listModel setValuesForKeysWithDictionary:dict];
-            [Marray addObject:listModel];
-        }
-        self.relate(Marray);
-        return;
+//        for (NSDictionary *dict in array) {
+//            QXYTest *listModel = [[QXYTest alloc] init];
+//            [listModel setValuesForKeysWithDictionary:dict];
+//            [Marray addObject:listModel];
+//        }
+        long updateTime = [[array firstObject][@"updateTime"] longValue];
+//        self.relate(Marray);
+        updateTimeS = [self getDateFormatterWithTime:updateTime];
     }
     [SVProgressHUD showWithStatus:@"正在努力加载" maskType:SVProgressHUDMaskTypeBlack];
     QXYNetworkTools *tools = [QXYNetworkTools sharedTools];
-    [tools loadTestWithGroupId:groupId finished:^(id success) {
+    [tools loadTestWithGroupId:groupId updateTime:updateTimeS finished:^(id success) {
         for (NSDictionary *dict in success) {
             QXYTest *listModel = [[QXYTest alloc] init];
             [listModel setValuesForKeysWithDictionary:dict];
@@ -61,5 +63,14 @@
     
 }
 
+/**
+ *  整型的时间转化成时间字符串
+ */
+- (NSString *)getDateFormatterWithTime:(long)time {
+    NSDate *newTime = [NSDate dateWithTimeIntervalSince1970:time/1000];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    return [dateFormatter stringFromDate:newTime];
+}
 
 @end

@@ -27,7 +27,6 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self prepareUI];
-        self.backgroundColor = [UIColor redColor];
     }
     return self;
 }
@@ -74,7 +73,6 @@
     __weak typeof(self) weakSelf = self;
     self.viewHight = ^(CGFloat hight){
         weakSelf.analysisView.frame = CGRectMake(0, 0, 1, hight);
-        weakSelf.analysisView.backgroundColor = [UIColor redColor];
         weakSelf.tableView.tableFooterView = weakSelf.analysisView;
     };
     self.analysisView.viewHight = self.viewHight;
@@ -133,19 +131,32 @@
     if (self.test.type == 2) {
         cell.imageView.image = [UIImage imageNamed:@"多选_a4"];
     }
-    cell.backgroundColor = [UIColor cyanColor];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.imageView.image = [UIImage imageNamed:@"单选效果图_12"];
-    /// 判断是否为多选
-    if (self.test.type == 2) {
+    cell.imageView.userInteractionEnabled = !cell.imageView.userInteractionEnabled;
+    if (cell.imageView.userInteractionEnabled) {
         cell.imageView.image = [UIImage imageNamed:@"单选效果图_10"];
+    } else {
+        cell.imageView.image = [UIImage imageNamed:@"多选_a4"];
     }
-    NSLog(@"%@",NSStringFromCGRect(cell.textLabel.frame));
+    /// 判断是否为单选
+    if (self.test.type == 1) {
+        for (int i = 0; i < self.modelArray.count; i++) {
+            NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+            cell = [tableView cellForRowAtIndexPath:path];
+            cell.imageView.image = [UIImage imageNamed:@"单选_a4"];
+            cell.imageView.userInteractionEnabled = NO;
+            if (i == indexPath.row) {
+                cell.imageView.userInteractionEnabled = YES;
+                cell.imageView.image = [UIImage imageNamed:@"单选效果图_12"];
+            }
+        }
+    }
+    NSLog(@"%d",cell.imageView.userInteractionEnabled);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

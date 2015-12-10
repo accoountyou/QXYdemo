@@ -13,6 +13,7 @@
 #import "QXYTestQuestion.h"
 #import "QXYSelectTest.h"
 #import "QXYAssess.h"
+#import "SVProgressHUD.h"
 
 @interface QXYTestViewController ()<QXYTestToolBarDelegate, UIScrollViewDelegate>
 
@@ -127,11 +128,51 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44]];
+    
 }
 
 #pragma mark - 工具栏的代理方法
 - (void)qxyTestToolBarClickAssignmentButton:(QXYTestButton *)button {
-    
+    NSString *jumpString = [NSString stringWithFormat:@"请输入需要跳转的题号:1~%ld",self.modelArray.count];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:jumpString preferredStyle:UIAlertControllerStyleAlert];
+    [alert addTextFieldWithConfigurationHandler:nil];
+     UITextField *jumpField = alert.textFields.firstObject;
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        int index = [jumpField.text intValue];
+        if (self.modelArray.count == 1) {
+            return;
+        }
+        if (index < 1 || index > self.modelArray.count) {
+            [SVProgressHUD showErrorWithStatus:@"您输入的题号有误" maskType:SVProgressHUDMaskTypeBlack];
+            return;
+        }
+        if (index == 1) {
+            self.leftIndex = self.modelArray.count - 1;
+            self.middleIndex = index - 1;
+            self.rightIndex = index;
+            self.testQuestionLeft.test = self.modelArray[self.leftIndex];
+            self.testQuestionMiddle.test = self.modelArray[self.middleIndex];
+            self.testQuestionRight.test = self.modelArray[self.rightIndex];
+        }
+        else if (index == self.modelArray.count) {
+            self.leftIndex = index - 2;
+            self.middleIndex = self.modelArray.count - 1;
+            self.rightIndex = 0;
+            self.testQuestionLeft.test = self.modelArray[self.leftIndex];
+            self.testQuestionMiddle.test = self.modelArray[self.middleIndex];
+            self.testQuestionRight.test = self.modelArray[self.rightIndex];
+        } else {
+            self.leftIndex = index - 2;
+            self.middleIndex = index - 1;
+            self.rightIndex = index;
+            self.testQuestionLeft.test = self.modelArray[self.leftIndex];
+            self.testQuestionMiddle.test = self.modelArray[self.middleIndex];
+            self.testQuestionRight.test = self.modelArray[self.rightIndex];
+        }
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+
 }
 
 - (void)qxyTestToolBarClickCommentButton:(QXYTestButton *)button {

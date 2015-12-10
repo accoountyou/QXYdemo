@@ -178,11 +178,6 @@
 }
 
 - (CGFloat)getSizeWithContent:(NSString *)content withFont:(UIFont *)font {
-//    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:content];
-//    NSRange range = NSMakeRange(0, attrStr.length);
-//    NSDictionary *dict = [attrStr attributesAtIndex:0 effectiveRange:&range];
-//    CGSize size = [content boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, 1000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict context:nil].size;
-//    return size.height;
     NSDictionary *dict = [NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
     CGSize size = [content boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, 1000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict context:nil].size;
     return size.height;

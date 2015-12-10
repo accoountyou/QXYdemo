@@ -73,13 +73,23 @@
 /**
  *  加载试题的方法
  */
-- (void)loadTestWithGroupId:(NSString *)groupId finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
+- (void)loadTestWithGroupId:(NSString *)groupId updateTime:(NSString *)updateTime finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
     NSString *urlString = [NSString stringWithFormat:@"http://tt.iqtogether.com/qxueyou/exercise/Exercise/examsExerList/%@",groupId];
-    NSDictionary *parameters = @{@"exerciseRecordId": @"", @"exerciseGroupId": groupId, @"updateTime": @"", @"callback": @"callback"};
+    NSDictionary *parameters = @{@"exerciseRecordId": @"", @"exerciseGroupId": groupId, @"updateTime": updateTime, @"callback": @"callback"};
     [self requestWithGetUrl:urlString parameters:parameters finished:^(id success) {
-
+        NSArray *successArray = success;
+        if (successArray.count == 0) {
+            // 沙盒目录
+            NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+            // 文件路径
+            NSString *filename = [path stringByAppendingPathComponent:[groupId stringByAppendingString:@".plist"]];
+            // 读取文件
+            NSArray *array = [[NSArray alloc] initWithContentsOfFile:filename];
+            [SVProgressHUD showSuccessWithStatus:@"本地读取"];
+            finished(array);
+            return;
+        }
         NSMutableArray *arrayM = [NSMutableArray array];
-        
         static NSString *analysis = nil;
         static NSString *imgs = nil;
         
@@ -124,7 +134,7 @@
         NSString *filename = [path stringByAppendingPathComponent:[groupId stringByAppendingString:@".plist"]];
         // 写入文件
         [arrayM writeToFile:filename atomically:YES];
-        
+        [SVProgressHUD showErrorWithStatus:@"网络加载"];
         finished(arrayM);
         
     } fail:^(NSError *error) {

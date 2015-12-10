@@ -31,7 +31,7 @@
 /**
  *  加载试题的方法
  */
-- (void)loadTestWithGroupId:(NSString *)groupId finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail;
+- (void)loadTestWithGroupId:(NSString *)groupId updateTime:(NSString *)updateTime finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail;
 
 /// 类方法构造单利对象
 + (instancetype)sharedTools;
