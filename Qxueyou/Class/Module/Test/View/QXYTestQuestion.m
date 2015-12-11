@@ -79,7 +79,6 @@
     self.analysisView.test = self.test;
     /// 让tableview一直显示在顶部
     [self.tableView setContentOffset:CGPointZero animated:NO];
-    
     [self setNeedsDisplay];
 }
 
@@ -104,7 +103,7 @@
     return _tableView;
 }
 
-#pragma mark - dataSource 
+#pragma mark - dataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.modelArray.count;
 }
@@ -116,7 +115,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     NSDictionary *dict = self.modelArray[indexPath.row];
-    NSLog(@"%d",indexPath.row);
     NSString *answerString = [NSString stringWithFormat:@"%@、%@", dict[@"optionOrder"], dict[@"content"]];
     if ([dict[@"optionOrder"] isEqualToString:@"True"]) {
         answerString = @"对";
@@ -127,36 +125,53 @@
     cell.textLabel.text = answerString;
     cell.textLabel.numberOfLines = 0;
     cell.imageView.image = [UIImage imageNamed:@"单选_a4"];
-    /// 判断是否为多选
-    if (self.test.type == 2) {
-        cell.imageView.image = [UIImage imageNamed:@"多选_a4"];
-    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.imageView.userInteractionEnabled = !cell.imageView.userInteractionEnabled;
     if (cell.imageView.userInteractionEnabled) {
-        cell.imageView.image = [UIImage imageNamed:@"单选效果图_10"];
+        cell.imageView.userInteractionEnabled = NO;
+        cell.imageView.image = [UIImage imageNamed:@"单选_a4"];
+        // 移除答案
+        if ([self.delegate respondsToSelector:@selector(removeMyAnswerWithTest:andRow:)]) {
+            [self.delegate removeMyAnswerWithTest:self.test andRow:indexPath.row];
+        }
     } else {
-        cell.imageView.image = [UIImage imageNamed:@"多选_a4"];
-    }
-    /// 判断是否为单选
-    if (self.test.type == 1) {
-        for (int i = 0; i < self.modelArray.count; i++) {
-            NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-            cell = [tableView cellForRowAtIndexPath:path];
-            cell.imageView.image = [UIImage imageNamed:@"单选_a4"];
-            cell.imageView.userInteractionEnabled = NO;
-            if (i == indexPath.row) {
-                cell.imageView.userInteractionEnabled = YES;
+        if (self.test.type == 2) {
+            cell.imageView.userInteractionEnabled = YES;
+            cell.imageView.image = [UIImage imageNamed:@"单选效果图_12"];
+            // 写入答案
+            if ([self.delegate respondsToSelector:@selector(writeMyAnswerWithTest:andRow:)]) {
+                [self.delegate writeMyAnswerWithTest:self.test andRow:indexPath.row];
+            }
+        } else {
+            UITableViewCell *cell1 = nil;
+            BOOL select = cell.imageView.userInteractionEnabled;
+            for (int i = 0; i < self.modelArray.count; i++) {
+                NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                cell1 = [tableView cellForRowAtIndexPath:path];
+                cell1.imageView.image = [UIImage imageNamed:@"单选_a4"];
+                cell1.imageView.userInteractionEnabled = NO;
+            }
+            cell.imageView.userInteractionEnabled = select;
+            // 删除原本存在的答案
+            if ([self.delegate respondsToSelector:@selector(removeMyAnswerWithTest:andRow:)]) {
+                [self.delegate removeMyAnswerWithTest:self.test andRow:indexPath.row];
+            }
+            if (select) {
+                cell.imageView.image = [UIImage imageNamed:@"单选_a4"];
+            } else {
+                // 写入答案
+                if ([self.delegate respondsToSelector:@selector(writeMyAnswerWithTest:andRow:)]) {
+                    [self.delegate writeMyAnswerWithTest:self.test andRow:indexPath.row];
+                }
                 cell.imageView.image = [UIImage imageNamed:@"单选效果图_12"];
             }
+            cell.imageView.userInteractionEnabled = !cell.imageView.userInteractionEnabled;
         }
     }
-    NSLog(@"%d",cell.imageView.userInteractionEnabled);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

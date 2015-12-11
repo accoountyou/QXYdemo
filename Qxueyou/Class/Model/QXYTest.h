@@ -16,6 +16,11 @@
 @property(nonatomic, strong) NSArray *options;
 /// 题型
 @property(nonatomic, assign) int type;
+/// 题目Id
+@property(nonatomic, copy) NSString *exerciseId;
+/// exerciseGroupId
+@property(nonatomic, copy) NSString  *exerciseGroupId;
+
 /// 正确答案
 @property(nonatomic, copy) NSDictionary *analisisResult;
 

@@ -9,6 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "QXYTest.h"
 
+@protocol QXYTestQuestionDelegate <NSObject>
+
+//写入或删除自己的答案
+- (void)writeMyAnswerWithTest:(QXYTest *)test andRow:(NSInteger)row;
+- (void)removeMyAnswerWithTest:(QXYTest *)test andRow:(NSInteger)row;
+
+@end
+
 @interface QXYTestQuestion : UIView
 
 
@@ -16,5 +24,7 @@
 
 /// 回调block
 @property(nonatomic, copy) void (^viewHight)(CGFloat hight);
+
+@property(nonatomic, strong) id<QXYTestQuestionDelegate> delegate;
 
 @end

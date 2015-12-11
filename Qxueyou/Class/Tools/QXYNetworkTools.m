@@ -10,6 +10,8 @@
 #import "SSKeychain.h"
 #import "SVProgressHUD.h"
 #import "CDLJSONPResponseSerializer.h"
+#import "QXYFmdbTools.h"
+#import <JSONKit/JSONKit.h>
 
 @implementation QXYNetworkTools
 
@@ -73,88 +75,104 @@
 /**
  *  加载试题的方法
  */
-- (void)loadTestWithGroupId:(NSString *)groupId updateTime:(NSString *)updateTime finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
+- (void)loadTestWithGroupId:(NSString *)groupId finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
+    
     NSString *urlString = [NSString stringWithFormat:@"http://tt.iqtogether.com/qxueyou/exercise/Exercise/examsExerList/%@",groupId];
-    NSDictionary *parameters = @{@"exerciseRecordId": @"", @"exerciseGroupId": groupId, @"updateTime": updateTime, @"callback": @"callback"};
-    [self requestWithGetUrl:urlString parameters:parameters finished:^(id success) {
-        NSArray *successArray = success;
-        if (successArray.count == 0) {
-            // 沙盒目录
-            NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-            // 文件路径
-            NSString *filename = [path stringByAppendingPathComponent:[groupId stringByAppendingString:@".plist"]];
-            // 读取文件
-            NSArray *array = [[NSArray alloc] initWithContentsOfFile:filename];
-            [SVProgressHUD showSuccessWithStatus:@"本地读取"];
-            finished(array);
-            return;
-        }
-        NSMutableArray *arrayM = [NSMutableArray array];
-        static NSString *analysis = nil;
-        static NSString *imgs = nil;
+    NSDictionary *parameters = @{@"exerciseRecordId": @"", @"exerciseGroupId": groupId, @"updateTime": @"", @"callback": @"callback"};
+    
+    //数据库查询updateTime
+    NSString *key = [NSString stringWithFormat:@"%@%@", urlString,[parameters JSONString]];
+    NSDictionary *jsonDic = [QXYFmdbTools queryUpdateTimeWithKey:key];
+    NSString *timeStr = jsonDic[@"updateTime"];
+    if (!timeStr) {
+        timeStr = @"";
         
-        for (NSDictionary *dict in success) {
+    }
+    NSDictionary *parametersUrl = @{@"exerciseRecordId": @"", @"exerciseGroupId": groupId, @"updateTime": timeStr, @"callback": @"callback"};
+    [self requestWithGetUrl:urlString parameters:parametersUrl finished:^(id success) {
+        //返回的数据中取出updateTime
+        NSString *updateTimeS = @"";
+        if (((NSArray *)success).count) {
+            long time = [[success firstObject][@"updateTime"] longValue];
+            updateTimeS = [self getDateFormatterWithTime:time];
+            //存储数据
+            if ([NSJSONSerialization isValidJSONObject:success])
+            {
+                NSError *error;
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:success options:NSJSONWritingPrettyPrinted error:&error];
+                NSString *json =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                [QXYFmdbTools insertData:key json:json withUpdateTime:updateTimeS];
+            }
+            finished(success);
+        }else{
+            NSString *jsonStr = jsonDic[@"json"];
+            NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *err;
+            id response = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+            finished(response);
             
-            NSMutableArray *arraySmall = [NSMutableArray array];
-            for (NSDictionary *dictSmall in dict[@"options"]) {
-                NSDictionary *dict_Small = @{@"optionOrder": dictSmall[@"optionOrder"], @"content": dictSmall[@"content"]};
-                [arraySmall addObject:dict_Small];
-            }
-
-            NSDictionary *dictMiddle = dict[@"analisisResult"];
-            if ([dictMiddle[@"analysis"] isKindOfClass:[NSNull class]]) {
-                analysis = @"NO";
-            } else {
-                analysis = dictMiddle[@"analysis"];
-            }
-            NSDictionary *dict_Middle = @{
-                                          @"allAccuracy": dictMiddle[@"allAccuracy"],
-                                          @"analysis": analysis,
-                                          @"submitAllNumber": dictMiddle[@"allAccuracy"],
-                                          @"accuracy": dictMiddle[@"allAccuracy"],
-                                          @"submitNumber": dictMiddle[@"allAccuracy"],
-                                          @"submitErrorNumber": dictMiddle[@"allAccuracy"],
-                                          @"correctAnswers": dictMiddle[@"correctAnswers"],
-                                          @"isSubmitAnswer": dictMiddle[@"isSubmitAnswer"]
-                                          };
-
-            
-            if ([dict[@"imgs"] isKindOfClass:[NSNull class]]) {
-                imgs = @"NO";
-            } else {
-                imgs = dict[@"imgs"];
-            }
-            NSDictionary *dictBig = @{@"title": dict[@"title"], @"updateTime": dict[@"updateTime"], @"type": dict[@"type"], @"options": arraySmall, @"analisisResult": dict_Middle, @"imgs": imgs};
-            [arrayM addObject:dictBig];
         }
-        
-        // 沙盒目录
-        NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        // 文件路径
-        NSString *filename = [path stringByAppendingPathComponent:[groupId stringByAppendingString:@".plist"]];
-        // 写入文件
-        [arrayM writeToFile:filename atomically:YES];
-        [SVProgressHUD showErrorWithStatus:@"网络加载"];
-        finished(arrayM);
-        
     } fail:^(NSError *error) {
-        fail(error);
+        // 离线缓存
+        NSString *oldData = [QXYFmdbTools queryData:key];
+        NSData *jsonData = [oldData dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *err;
+        id response = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+        finished(response);
     }];
 }
 
 #pragma mark - 封装网络请求的方法
 - (void)requestWithGetUrl:(NSString *)urlString parameters:(NSDictionary *)parameters finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
     NSString *callback = @"callback";
+    NSString *key = [NSString stringWithFormat:@"%@%@", urlString,[parameters JSONString]];
+    
     NSURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:urlString parameters:parameters];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     operation.responseSerializer = [CDLJSONPResponseSerializer serializerWithCallback:callback];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            if (!((NSArray *)responseObject).count) {
+                finished(responseObject);
+                return;
+            }
+        }
+        if ([NSJSONSerialization isValidJSONObject:responseObject])
+        {
+            
+            NSError *error;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:&error];
+            NSString *json =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            [QXYFmdbTools insertData:key json:json];
+        }
         finished(responseObject);
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        fail(error);
+        // 离线缓存
+        NSString *jsonStr = [QXYFmdbTools queryData:key];
+        
+        NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
+        if (!jsonData) {
+            fail(error);
+            return;
+        }
+        NSError *err;
+        id response = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+        finished(response);
     }];
     [[NSOperationQueue mainQueue] addOperation:operation];
 }
+
+/**
+ *  整型的时间转化成时间字符串
+ */
+- (NSString *)getDateFormatterWithTime:(long)time {
+    NSDate *newTime = [NSDate dateWithTimeIntervalSince1970:time/1000];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    return [dateFormatter stringFromDate:newTime];
+}
+
 
 #pragma mark - 加载和保护用户信息
 #define QXYUsernameKey @"QXYUsernameKey"

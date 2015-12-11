@@ -38,33 +38,6 @@
     [self addSubview:self.countLabel];
     [self addSubview:self.analysisMore];
     [self addSubview:self.analysisLabel];
-    
-    self.answerMore.translatesAutoresizingMaskIntoConstraints = NO;
-    self.answerLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.countMore.translatesAutoresizingMaskIntoConstraints = NO;
-    self.countLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.analysisMore.translatesAutoresizingMaskIntoConstraints = NO;
-    self.analysisLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[LineView]-10-|" options:0 metrics:nil views:@{@"LineView": self.answerLabel}]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[LineView]" options:0 metrics:nil views:@{@"LineView": self.answerLabel}]];
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-30-[LineView]-10-|" options:0 metrics:nil views:@{@"LineView": self.answerMore}]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.answerMore attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.answerLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:5]];
-
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[LineView]-10-|" options:0 metrics:nil views:@{@"LineView": self.countLabel}]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.countLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.answerMore attribute:NSLayoutAttributeBottom multiplier:1 constant:10]];
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-30-[LineView]-10-|" options:0 metrics:nil views:@{@"LineView": self.countMore}]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.countMore attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.countLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:5]];
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[LineView]-10-|" options:0 metrics:nil views:@{@"LineView": self.analysisLabel}]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.analysisLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.countMore attribute:NSLayoutAttributeBottom multiplier:1 constant:10]];
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-30-[LineView]-10-|" options:0 metrics:nil views:@{@"LineView": self.analysisMore}]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.analysisMore attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.analysisLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:5]];
-    
-    [self layoutIfNeeded];
 }
 
 - (void)setTest:(QXYTest *)test {
@@ -103,13 +76,19 @@
     
     CGFloat answerF = 0;
     answerF = [self getSizeWithContent:answerAll withFont:[UIFont systemFontOfSize:16]];
+    self.answerLabel.frame = CGRectMake(10, 10, [UIScreen mainScreen].bounds.size.width - 20, 20);
+    self.answerMore.frame = CGRectMake(30, CGRectGetMaxY(self.answerLabel.frame) + 5, [UIScreen mainScreen].bounds.size.width - 40, answerF);
     CGFloat countF = 0;
     countF = [self getSizeWithContent:countAll withFont:[UIFont systemFontOfSize:16]];
+    self.countLabel.frame = CGRectMake(10, CGRectGetMaxY(self.answerMore.frame) + 10, [UIScreen mainScreen].bounds.size.width - 20, 20);
+    self.countMore.frame = CGRectMake(30, CGRectGetMaxY(self.countLabel.frame) + 5, [UIScreen mainScreen].bounds.size.width - 40, countF);
     CGFloat analisisF = 0;
-    if (![analisisResult[@"analysis"] isEqualToString:@"NO"]) {
+    if (![analisisResult[@"analysis"] isKindOfClass:[NSNull class]]) {
         self.analysisMore.text = analisisResult[@"analysis"];
     }
     analisisF = [self getSizeWithContent:self.analysisMore.text withFont:[UIFont systemFontOfSize:16]];
+    self.analysisLabel.frame = CGRectMake(10, CGRectGetMaxY(self.countMore.frame) + 10, [UIScreen mainScreen].bounds.size.width - 20, 20);
+    self.analysisMore.frame = CGRectMake(30, CGRectGetMaxY(self.analysisLabel.frame) + 5, [UIScreen mainScreen].bounds.size.width - 40, analisisF);
     CGFloat H = answerF + countF + analisisF + 150;
     self.viewHight(H);
 }
@@ -179,7 +158,7 @@
 
 - (CGFloat)getSizeWithContent:(NSString *)content withFont:(UIFont *)font {
     NSDictionary *dict = [NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
-    CGSize size = [content boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, 1000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict context:nil].size;
+    CGSize size = [content boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict context:nil].size;
     return size.height;
 }
 
