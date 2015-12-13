@@ -19,6 +19,7 @@
 
 @interface QXYTestQuestion : UIView
 
+@property (nonatomic ,strong) NSDictionary *answerDic;
 
 @property(nonatomic, strong) QXYTest *test;
 

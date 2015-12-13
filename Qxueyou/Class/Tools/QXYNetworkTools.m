@@ -115,6 +115,10 @@
     } fail:^(NSError *error) {
         // 离线缓存
         NSString *oldData = [QXYFmdbTools queryData:key];
+        if (!oldData) {
+            [SVProgressHUD showErrorWithStatus:@"网络加载出错" maskType:SVProgressHUDMaskTypeBlack];
+            return;
+        }
         NSData *jsonData = [oldData dataUsingEncoding:NSUTF8StringEncoding];
         NSError *err;
         id response = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];

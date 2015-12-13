@@ -79,6 +79,11 @@
     self.analysisView.test = self.test;
     /// 让tableview一直显示在顶部
     [self.tableView setContentOffset:CGPointZero animated:NO];
+//    for (int i = 0; i < self.modelArray.count; i++) {
+//        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+//        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
+//        cell.imageView.userInteractionEnabled = NO;
+//    }
     [self setNeedsDisplay];
 }
 
@@ -114,6 +119,8 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    cell.imageView.userInteractionEnabled = NO;
+
     NSDictionary *dict = self.modelArray[indexPath.row];
     NSString *answerString = [NSString stringWithFormat:@"%@、%@", dict[@"optionOrder"], dict[@"content"]];
     if ([dict[@"optionOrder"] isEqualToString:@"True"]) {
@@ -125,6 +132,15 @@
     cell.textLabel.text = answerString;
     cell.textLabel.numberOfLines = 0;
     cell.imageView.image = [UIImage imageNamed:@"单选_a4"];
+    if (_answerDic) {
+        NSArray *array = [_answerDic[@"sumbitAnswer"] componentsSeparatedByString:@","];
+        for (NSString *str in array) {
+            if ([str isEqualToString:dict[@"optionOrder"]]) {
+                cell.imageView.userInteractionEnabled = YES;
+                cell.imageView.image = [UIImage imageNamed:@"单选效果图_12"];
+            }
+        }
+    }
     return cell;
 }
 

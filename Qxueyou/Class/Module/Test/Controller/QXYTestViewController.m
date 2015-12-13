@@ -14,6 +14,7 @@
 #import "QXYSelectTest.h"
 #import "QXYAssess.h"
 #import "SVProgressHUD.h"
+#import "QXYFmdbTools.h"
 
 @interface QXYTestViewController ()<QXYTestToolBarDelegate, UIScrollViewDelegate, QXYTestQuestionDelegate>
 
@@ -135,7 +136,11 @@
                 [dict setValue:[self sortStringByAbcd:answerString] forKey:@"sumbitAnswer"];
             }
         }
-        NSLog(@"---------%@",dict[@"sumbitAnswer"]);
+            }
+    for (NSMutableDictionary *dict in self.answerArray) {
+        if ([test.exerciseId isEqualToString:dict[@"exerciseId"]]) {
+            NSLog(@"---------%@",dict[@"sumbitAnswer"]);
+        }
     }
 }
 
@@ -170,15 +175,18 @@
                 [dict setValue:@"" forKey:@"sumbitAnswer"];
             }
         }
-        NSLog(@"--------%@",dict[@"sumbitAnswer"]);
+    }
+    for (NSMutableDictionary *dict in self.answerArray) {
+        if ([test.exerciseId isEqualToString:dict[@"exerciseId"]]) {
+            NSLog(@"---------%@",dict[@"sumbitAnswer"]);
+        }
     }
 }
 
 // 排列字符串 如“A,C,D,B” 为 “A,B,C,D”
 - (NSMutableString *)sortStringByAbcd:(NSString *)kStr{
     NSArray *kArrSort = [kStr componentsSeparatedByString:@","]; //这里是字母数组:,g,a,b.y,m……
-    NSArray *resultkArrSort = [kArrSort sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        
+    NSArray *resultkArrSort = [kArrSort sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {  
         return [obj1 compare:obj2 options:NSNumericSearch];
     }];
     
@@ -215,6 +223,9 @@
 
 - (void)clickCancelButton {
     [self.navigationController popViewControllerAnimated:YES];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self.answerArray options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *json =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    [QXYFmdbTools insertData:self.list.groupId json:json];
 }
 
 - (void)dealloc {
@@ -242,6 +253,9 @@
             self.leftIndex = self.modelArray.count - 1;
             self.middleIndex = index - 1;
             self.rightIndex = index;
+            self.testQuestionLeft.answerDic = self.answerArray[self.leftIndex];
+            self.testQuestionMiddle.answerDic = self.answerArray[self.middleIndex];
+            self.testQuestionRight.answerDic = self.answerArray[self.rightIndex];
             self.testQuestionLeft.test = self.modelArray[self.leftIndex];
             self.testQuestionMiddle.test = self.modelArray[self.middleIndex];
             self.testQuestionRight.test = self.modelArray[self.rightIndex];
@@ -250,6 +264,9 @@
             self.leftIndex = index - 2;
             self.middleIndex = self.modelArray.count - 1;
             self.rightIndex = 0;
+            self.testQuestionLeft.answerDic = self.answerArray[self.leftIndex];
+            self.testQuestionMiddle.answerDic = self.answerArray[self.middleIndex];
+            self.testQuestionRight.answerDic = self.answerArray[self.rightIndex];
             self.testQuestionLeft.test = self.modelArray[self.leftIndex];
             self.testQuestionMiddle.test = self.modelArray[self.middleIndex];
             self.testQuestionRight.test = self.modelArray[self.rightIndex];
@@ -257,6 +274,9 @@
             self.leftIndex = index - 2;
             self.middleIndex = index - 1;
             self.rightIndex = index;
+            self.testQuestionLeft.answerDic = self.answerArray[self.leftIndex];
+            self.testQuestionMiddle.answerDic = self.answerArray[self.middleIndex];
+            self.testQuestionRight.answerDic = self.answerArray[self.rightIndex];
             self.testQuestionLeft.test = self.modelArray[self.leftIndex];
             self.testQuestionMiddle.test = self.modelArray[self.middleIndex];
             self.testQuestionRight.test = self.modelArray[self.rightIndex];
@@ -275,7 +295,7 @@
     [self setupNavigationBar];
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];;
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * 3, 0);
+//    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * 3, 0);
     self.scrollView.contentOffset = CGPointMake(self.scrollView.frame.size.width, 0);
     self.scrollView.pagingEnabled = YES;
     self.scrollView.delegate = self;
@@ -291,7 +311,7 @@
     self.middleIndex = 0;
     self.rightIndex = 1;
     if (self.modelArray.count == 1) {
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 0);
+        self.scrollView.contentSize = CGSizeMake(0, 0);
     } else if (self.modelArray.count == 2) {
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * 3, 0);
         self.testQuestionRight.test = [self.modelArray objectAtIndex:1];
@@ -336,6 +356,9 @@
         self.leftIndex = --self.leftIndex >= 0 ? self.leftIndex : self.modelArray.count - 1;
         self.middleIndex = --self.middleIndex >= 0 ? self.middleIndex : self.modelArray.count - 1;
         self.rightIndex = --self.rightIndex >= 0 ? self.rightIndex : self.modelArray.count - 1;
+        self.testQuestionLeft.answerDic = self.answerArray[self.leftIndex];
+        self.testQuestionMiddle.answerDic = self.answerArray[self.middleIndex];
+        self.testQuestionRight.answerDic = self.answerArray[self.rightIndex];
         self.testQuestionLeft.test = self.modelArray[self.leftIndex];
         self.testQuestionMiddle.test = self.modelArray[self.middleIndex];
         self.testQuestionRight.test = self.modelArray[self.rightIndex];
@@ -346,6 +369,9 @@
         self.leftIndex = ++self.leftIndex <= self.modelArray.count - 1 ? self.leftIndex : 0;
         self.middleIndex = ++self.middleIndex <= self.modelArray.count - 1 ? self.middleIndex : 0;
         self.rightIndex = ++self.rightIndex <= self.modelArray.count - 1 ? self.rightIndex : 0;
+        self.testQuestionLeft.answerDic = self.answerArray[self.leftIndex];
+        self.testQuestionMiddle.answerDic = self.answerArray[self.middleIndex];
+        self.testQuestionRight.answerDic = self.answerArray[self.rightIndex];
         self.testQuestionLeft.test = self.modelArray[self.leftIndex];
         self.testQuestionMiddle.test = self.modelArray[self.middleIndex];
         self.testQuestionRight.test = self.modelArray[self.rightIndex];
