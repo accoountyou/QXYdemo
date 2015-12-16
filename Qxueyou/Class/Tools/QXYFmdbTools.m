@@ -20,7 +20,7 @@
             NSString *sqlCreateTable = @"CREATE TABLE CACHES (URL TEXT PRIMARY KEY, JSON TEXT)";
             BOOL res = [db executeUpdate:sqlCreateTable];
             
-            NSString *sqlCreateTableTest = @"CREATE TABLE TEST (URL TEXT PRIMARY KEY, JSON TEXT, UPDATETIME TEXT)";
+            NSString *sqlCreateTableTest = @"CREATE TABLE TEST (URL TEXT PRIMARY KEY, JSON TEXT, UPDATETIME TEXT, RECORDID TEXT)";
             BOOL resTest = [db executeUpdate:sqlCreateTableTest];
             
             if (!res || !resTest) {
@@ -80,14 +80,28 @@
             
             [jsonDic setObject:[rs stringForColumn:@"UPDATETIME"] forKey:@"updateTime"];
             [jsonDic setObject:[rs stringForColumn:@"JSON"] forKey:@"json"];
-            
-            //NSLog(@"id = %@, address = %@", key, json);
         }
         [db close];
     }
     
     return jsonDic;
 }
+
+//+ (void)changeRecordIdWithKey:(NSString *)key andRecordId:(NSString *)recordId {
+//    FMDatabase *db = [self createDB];
+//    if ([db open]) {
+//        NSString *querySql = [NSString stringWithFormat:@"UPDATE TEST SET RECORDID = '%@' WHERE URL = '%@'", recordId, key];
+//        BOOL res = [db executeUpdate:querySql];
+//        if (!res) {
+//            NSLog(@"error when update db table");
+//        } else {
+//            NSLog(@"success to update db table");
+//        }
+//    }
+//    [db close];
+//}
+
+
 + (NSString *)queryData:(NSString *)key{
     FMDatabase *db = [self createDB];
     NSString * json = nil;

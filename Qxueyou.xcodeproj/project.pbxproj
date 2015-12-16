@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		693A77F11C112F9200AC9E01 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 693A77F01C112F9200AC9E01 /* SSKeychain.m */; };
 		693A77F51C11362F00AC9E01 /* NSObject+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 693A77F41C11362F00AC9E01 /* NSObject+Log.m */; };
+		6962142E1C1FEE39006B1DE1 /* QXYTest.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6962142D1C1FEE39006B1DE1 /* QXYTest.storyboard */; };
+		696214311C20460B006B1DE1 /* QXYCommit.m in Sources */ = {isa = PBXBuildFile; fileRef = 696214301C20460B006B1DE1 /* QXYCommit.m */; };
 		698950B21C15659700A63032 /* QXYTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 698950B11C15659700A63032 /* QXYTest.m */; };
 		698950B81C158A3000A63032 /* QXYTestQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 698950B71C158A3000A63032 /* QXYTestQuestion.m */; };
 		69938BFF1C117B6500C1042B /* QXYListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69938BFE1C117B6500C1042B /* QXYListTableViewCell.m */; };
@@ -28,7 +30,6 @@
 		69D52B781C0EE1DC0018928F /* QxueyouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D52B771C0EE1DC0018928F /* QxueyouTests.m */; };
 		69D52B831C0EE1DC0018928F /* QxueyouUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D52B821C0EE1DC0018928F /* QxueyouUITests.m */; };
 		69F3C3EE1C1801840098C8AB /* QXYFmdbTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F3C3ED1C1801840098C8AB /* QXYFmdbTools.m */; };
-		69F3C3F71C1819660098C8AB /* QXYSelectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F3C3F61C1819660098C8AB /* QXYSelectTest.m */; };
 		69F3C3FA1C1823590098C8AB /* QXYAssess.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F3C3F91C1823590098C8AB /* QXYAssess.m */; };
 		8A241CDE4F897ED3ABCD83CA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ABA77F7DA4200F4466C483C /* libPods.a */; };
 		FEE957161C10FF18006698AA /* QXYListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE957151C10FF17006698AA /* QXYListTableViewController.m */; };
@@ -57,6 +58,9 @@
 		693A77F01C112F9200AC9E01 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		693A77F31C11362F00AC9E01 /* NSObject+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Log.h"; sourceTree = "<group>"; };
 		693A77F41C11362F00AC9E01 /* NSObject+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Log.m"; sourceTree = "<group>"; };
+		6962142D1C1FEE39006B1DE1 /* QXYTest.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = QXYTest.storyboard; sourceTree = "<group>"; };
+		6962142F1C20460B006B1DE1 /* QXYCommit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYCommit.h; sourceTree = "<group>"; };
+		696214301C20460B006B1DE1 /* QXYCommit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYCommit.m; sourceTree = "<group>"; };
 		698950B01C15659700A63032 /* QXYTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QXYTest.h; path = Qxueyou/Class/Model/QXYTest.h; sourceTree = SOURCE_ROOT; };
 		698950B11C15659700A63032 /* QXYTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QXYTest.m; path = Qxueyou/Class/Model/QXYTest.m; sourceTree = SOURCE_ROOT; };
 		698950B61C158A3000A63032 /* QXYTestQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYTestQuestion.h; sourceTree = "<group>"; };
@@ -97,8 +101,6 @@
 		69D52B841C0EE1DC0018928F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69F3C3EC1C1801840098C8AB /* QXYFmdbTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYFmdbTools.h; sourceTree = "<group>"; };
 		69F3C3ED1C1801840098C8AB /* QXYFmdbTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYFmdbTools.m; sourceTree = "<group>"; };
-		69F3C3F51C1819660098C8AB /* QXYSelectTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QXYSelectTest.h; path = ../View/QXYSelectTest.h; sourceTree = "<group>"; };
-		69F3C3F61C1819660098C8AB /* QXYSelectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QXYSelectTest.m; path = ../View/QXYSelectTest.m; sourceTree = "<group>"; };
 		69F3C3F81C1823590098C8AB /* QXYAssess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXYAssess.h; sourceTree = "<group>"; };
 		69F3C3F91C1823590098C8AB /* QXYAssess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXYAssess.m; sourceTree = "<group>"; };
 		7ABA77F7DA4200F4466C483C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -348,10 +350,11 @@
 			children = (
 				69C7B1C51C102C6C003FE64C /* QXYTestViewController.h */,
 				69C7B1C61C102C6C003FE64C /* QXYTestViewController.m */,
-				69F3C3F51C1819660098C8AB /* QXYSelectTest.h */,
-				69F3C3F61C1819660098C8AB /* QXYSelectTest.m */,
 				69F3C3F81C1823590098C8AB /* QXYAssess.h */,
 				69F3C3F91C1823590098C8AB /* QXYAssess.m */,
+				6962142F1C20460B006B1DE1 /* QXYCommit.h */,
+				696214301C20460B006B1DE1 /* QXYCommit.m */,
+				6962142D1C1FEE39006B1DE1 /* QXYTest.storyboard */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69D52B6A1C0EE1DC0018928F /* Assets.xcassets in Resources */,
+				6962142E1C1FEE39006B1DE1 /* QXYTest.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,6 +658,7 @@
 				693A77F51C11362F00AC9E01 /* NSObject+Log.m in Sources */,
 				69C7B1B01C0FD66A003FE64C /* QXYNetworkTools.m in Sources */,
 				698950B21C15659700A63032 /* QXYTest.m in Sources */,
+				696214311C20460B006B1DE1 /* QXYCommit.m in Sources */,
 				69C7B1C01C1029FD003FE64C /* QXYVisitorView.m in Sources */,
 				69C7B1CD1C1032AE003FE64C /* QXYTestButton.m in Sources */,
 				69C7B1C71C102C6C003FE64C /* QXYTestViewController.m in Sources */,
@@ -661,7 +666,6 @@
 				69C7B1AC1C0FCE38003FE64C /* QXYLoginViewController.m in Sources */,
 				69D52B5F1C0EE1DC0018928F /* main.m in Sources */,
 				693A77F11C112F9200AC9E01 /* SSKeychain.m in Sources */,
-				69F3C3F71C1819660098C8AB /* QXYSelectTest.m in Sources */,
 				FEE957161C10FF18006698AA /* QXYListTableViewController.m in Sources */,
 				69938C021C118F2200C1042B /* QXYListButton.m in Sources */,
 				69C7B1BD1C10292A003FE64C /* QXYBaseTableViewController.m in Sources */,

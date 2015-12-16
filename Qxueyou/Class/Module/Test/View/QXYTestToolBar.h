@@ -11,6 +11,7 @@
 
 @protocol QXYTestToolBarDelegate <NSObject>
 
+- (void)qxyTestToolBarClickSaveButton:(QXYTestButton *)button;
 - (void)qxyTestToolBarClickAssignmentButton:(QXYTestButton *)button;
 - (void)qxyTestToolBarClickCommentButton:(QXYTestButton *)button;
 - (void)qxyTestToolBarClickMoreButton:(QXYTestButton *)button;
@@ -21,6 +22,6 @@
 
 @property(nonatomic, weak) id<QXYTestToolBarDelegate> delegate;
 
-
+@property(nonatomic, copy) NSString *groupId;
 
 @end

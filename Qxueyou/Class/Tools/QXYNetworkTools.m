@@ -6,6 +6,8 @@
 //  Copyright © 2015年 zhu. All rights reserved.
 //
 
+//NSString *urlString = @"http://tt.iqtogether.com/qxueyou/exercise/Exercise/examsList";
+
 #import "QXYNetworkTools.h"
 #import "SSKeychain.h"
 #import "SVProgressHUD.h"
@@ -34,7 +36,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:QXYLoginSuccessNotification object:@"LoginFail"];
         }
     } fail:^(NSError *error) {
-        NSLog(@"error:%@",error);
+//        NSLog(@"error:%@",error);
         [SVProgressHUD showErrorWithStatus:@"您输入的账户密码不正确,请重新输入" maskType:SVProgressHUDMaskTypeBlack];
         [[NSNotificationCenter defaultCenter] postNotificationName:QXYLoginSuccessNotification object:@"LoginFail"];
         
@@ -68,7 +70,8 @@
     [self requestWithGetUrl:urlString parameters:parameters finished:^(id success) {
         finished(success);
     } fail:^(NSError *error) {
-        fail(error);
+        [SVProgressHUD showErrorWithStatus:@"网络加载出错" maskType:SVProgressHUDMaskTypeBlack];
+        return;
     }];
 }
 
@@ -76,17 +79,14 @@
  *  加载试题的方法
  */
 - (void)loadTestWithGroupId:(NSString *)groupId finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
-    
     NSString *urlString = [NSString stringWithFormat:@"http://tt.iqtogether.com/qxueyou/exercise/Exercise/examsExerList/%@",groupId];
     NSDictionary *parameters = @{@"exerciseRecordId": @"", @"exerciseGroupId": groupId, @"updateTime": @"", @"callback": @"callback"};
-    
     //数据库查询updateTime
     NSString *key = [NSString stringWithFormat:@"%@%@", urlString,[parameters JSONString]];
     NSDictionary *jsonDic = [QXYFmdbTools queryUpdateTimeWithKey:key];
     NSString *timeStr = jsonDic[@"updateTime"];
     if (!timeStr) {
         timeStr = @"";
-        
     }
     NSDictionary *parametersUrl = @{@"exerciseRecordId": @"", @"exerciseGroupId": groupId, @"updateTime": timeStr, @"callback": @"callback"};
     [self requestWithGetUrl:urlString parameters:parametersUrl finished:^(id success) {
@@ -126,6 +126,54 @@
     }];
 }
 
+/**
+ *  提交试题答案
+ */
+- (void)assignmentWithAnswerArray:(NSArray *)answerArray finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
+    NSString *urlString = @"http://tt.iqtogether.com/qxueyou/exercise/Exercise/submitExerAnswers";
+    NSDictionary *keyParameters = @{@"answerResults": answerArray};
+    NSData *keyData = [NSJSONSerialization dataWithJSONObject:keyParameters options:0 error:nil];
+    NSString *keyParametersString = [[NSString alloc] initWithData:keyData encoding:NSUTF8StringEncoding];
+    NSDictionary *parameters = @{@"answers": keyParametersString, @"callback": @"callback"};
+//    NSLog(@"%@",parameters);
+    [self requestWithGetUrl:urlString parameters:parameters finished:^(id success) {
+        //向数据库中插入exerciseRecordId
+//        NSLog(@"success:%@",success);
+        // 再次请求加载试题
+        finished(success);
+    } fail:^(NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"网络加载出错" maskType:SVProgressHUDMaskTypeBlack];
+        return;
+    }];
+}
+
+/**
+ *  请求评论列表
+ */
+- (void)assessWithUid:(NSString *)uid finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
+    NSString *urlString = @"http://tt.iqtogether.com/qxueyou/comment/Comment/commentList";
+    NSDictionary *parameters = @{@"commentObjectUid": uid, @"commentObjectType": @"2", @"page": @"1", @"limit": @"10000", @"start": @"0", @"callback": @"callback"};
+    [self requestWithGetUrl:urlString parameters:parameters finished:^(id success) {
+//        NSLog(@"success:%@",success);
+    } fail:^(NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"网络加载出错" maskType:SVProgressHUDMaskTypeBlack];
+        return;
+    }];
+}
+
+/**
+ *  提交评论
+ */
+- (void)commitWithUid:(NSString *)uid andContent:(NSString *)content finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
+    NSString *urlString = @"http://tt.iqtogether.com/qxueyou/comment/Comment/submitData";
+    NSDictionary *parameters = @{@"objectId": uid, @"type": @"2", @"content":content, @"callback": @"callback"};
+    [self requestWithGetUrl:urlString parameters:parameters finished:^(id success) {
+//        NSLog(@"success:%@",success);
+    } fail:^(NSError *error) {
+        
+    }];
+}
+
 #pragma mark - 封装网络请求的方法
 - (void)requestWithGetUrl:(NSString *)urlString parameters:(NSDictionary *)parameters finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail {
     NSString *callback = @"callback";
@@ -135,6 +183,12 @@
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     operation.responseSerializer = [CDLJSONPResponseSerializer serializerWithCallback:callback];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            if ([(NSDictionary *)responseObject objectForKey:@"msg"] || [(NSDictionary *)responseObject objectForKey:@"commentPraiseCount"]) {
+                finished(responseObject);
+                return ;
+            }
+        }
         if ([responseObject isKindOfClass:[NSArray class]]) {
             if (!((NSArray *)responseObject).count) {
                 finished(responseObject);

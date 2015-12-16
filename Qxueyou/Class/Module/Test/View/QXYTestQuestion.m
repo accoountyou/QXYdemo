@@ -7,15 +7,19 @@
 //
 
 #import "QXYTestQuestion.h"
-#import "QXYAnalysisView.h"
+
 
 
 @interface QXYTestQuestion ()<UITableViewDataSource, UITableViewDelegate>
 
 @property(nonatomic, strong) UILabel *question;
 @property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong) UIImageView *iconImage;
 @property(nonatomic, strong) NSArray *modelArray;
-@property(nonatomic, strong) QXYAnalysisView *analysisView;
+
+/// 是否提交
+@property(nonatomic, assign) BOOL assignmentSuccess;
+
 
 ///答案选项
 @property(nonatomic, copy) NSString *answerAll;
@@ -24,12 +28,12 @@
 
 @implementation QXYTestQuestion
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        [self prepareUI];
-    }
-    return self;
-}
+//- (instancetype)initWithFrame:(CGRect)frame {
+//    if (self = [super initWithFrame:frame]) {
+//        [self prepareUI];
+//    }
+//    return self;
+//}
 
 - (void)prepareUI {
     [self addSubview:self.question];
@@ -44,11 +48,16 @@
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[LineView]-0-|" options:0 metrics:nil views:@{@"LineView": self.tableView}]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.question attribute:NSLayoutAttributeBottom multiplier:1 constant:10]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-
+    
+//    self.analysisView = [[QXYAnalysisView alloc] init];
+//    self.analysisView.hidden = YES;
 }
 
 - (void)setTest:(QXYTest *)test {
     _test = test;
+    
+    [self prepareUI];
+    
     NSString *titleString = @"";
     NSString *headSting = @"";
     if (test.type == 1) {
@@ -68,22 +77,26 @@
 
     self.modelArray = test.options;
     [self.tableView reloadData];
-    
-    self.analysisView = [[QXYAnalysisView alloc] init];
+    // 取出提交状态，看是否提交
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *assignment = [defaults valueForKey:self.test.exerciseGroupId];
+    if ([assignment isEqualToString:@"assignmentSuccess"]) {
+        self.assignmentSuccess = YES;
+        self.analysisView.hidden = NO;
+    } else {
+        self.assignmentSuccess = NO;
+        self.analysisView.hidden = YES;
+    }
     __weak typeof(self) weakSelf = self;
     self.viewHight = ^(CGFloat hight){
         weakSelf.analysisView.frame = CGRectMake(0, 0, 1, hight);
         weakSelf.tableView.tableFooterView = weakSelf.analysisView;
     };
     self.analysisView.viewHight = self.viewHight;
+    self.analysisView.answerDict = self.answerDic;
     self.analysisView.test = self.test;
     /// 让tableview一直显示在顶部
     [self.tableView setContentOffset:CGPointZero animated:NO];
-//    for (int i = 0; i < self.modelArray.count; i++) {
-//        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-//        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
-//        cell.imageView.userInteractionEnabled = NO;
-//    }
     [self setNeedsDisplay];
 }
 
@@ -106,6 +119,13 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _tableView;
+}
+
+- (QXYAnalysisView *)analysisView {
+    if (_analysisView == nil) {
+        _analysisView = [[QXYAnalysisView alloc] init];
+    }
+    return _analysisView;
 }
 
 #pragma mark - dataSource
@@ -133,9 +153,15 @@
     cell.textLabel.numberOfLines = 0;
     cell.imageView.image = [UIImage imageNamed:@"单选_a4"];
     if (_answerDic) {
-        NSArray *array = [_answerDic[@"sumbitAnswer"] componentsSeparatedByString:@","];
+        NSArray *array = [_answerDic[@"answer"] componentsSeparatedByString:@","];
         for (NSString *str in array) {
-            if ([str isEqualToString:dict[@"optionOrder"]]) {
+            NSString *string = str;
+            if ([str isEqualToString:@"0"]) {
+                string = @"False";
+            } else if ([str isEqualToString:@"1"]) {
+                string = @"True";
+            }
+            if ([string isEqualToString:dict[@"optionOrder"]]) {
                 cell.imageView.userInteractionEnabled = YES;
                 cell.imageView.image = [UIImage imageNamed:@"单选效果图_12"];
             }

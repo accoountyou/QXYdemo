@@ -33,6 +33,21 @@
  */
 - (void)loadTestWithGroupId:(NSString *)groupId finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail;
 
+/**
+ *  提交试题答案
+ */
+- (void)assignmentWithAnswerArray:(NSArray *)answerArray finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail;
+
+/**
+ *  请求评论列表
+ */
+- (void)assessWithUid:(NSString *)uid finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail;
+
+/**
+ *  提交评论
+ */
+- (void)commitWithUid:(NSString *)uid andContent:(NSString *)content finished:(void (^)(id success))finished fail:(void (^)(NSError *error))fail;
+
 /// 类方法构造单利对象
 + (instancetype)sharedTools;
 

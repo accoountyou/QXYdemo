@@ -82,7 +82,7 @@
 - (void)setList:(QXYTestList *)list {
     _list = list;
     self.messageLabel.text = list.name;
-    self.countLabel.text = [NSString stringWithFormat:@"%@题",list.allCount];
+    self.countLabel.text = [NSString stringWithFormat:@"共%@题",list.allCount];
 }
 
 @end

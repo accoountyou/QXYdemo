@@ -13,6 +13,8 @@
 
 /// 答案模型
 @property(nonatomic, strong) QXYTest *test;
+/// 自己做单的字典
+@property(nonatomic, strong) NSDictionary *answerDict;
 
 /// 回调block
 @property(nonatomic, copy) void (^viewHight)(CGFloat hight);

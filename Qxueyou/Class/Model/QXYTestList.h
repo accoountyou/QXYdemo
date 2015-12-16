@@ -16,13 +16,9 @@
 @property(nonatomic, copy) NSString *allCount;
 /// 试题groupId
 @property(nonatomic, copy) NSString *groupId;
-/// 题型
-@property(nonatomic, assign) int type;
 /// 回调block
 @property(nonatomic, copy) void (^relate)(NSArray *listArray);
-/// userld
-@property(nonatomic, copy) NSString *userId;
-@property(nonatomic, copy) NSString *classId;
+
 /// 字典转模型
 - (void)loadTestList;
 

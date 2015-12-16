@@ -29,17 +29,31 @@
 /// 计时器
 @property(nonatomic, strong) NSTimer *timer;
 
+/// 是否提交
+@property(nonatomic, assign) BOOL assignmentSuccess;
+
 @end
 
 @implementation QXYTestToolBar
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        [self prepareUI];
-        self.testTime = 45 * 60;
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+//- (instancetype)initWithFrame:(CGRect)frame {
+//    if (self = [super initWithFrame:frame]) {
+//        
+//    }
+//    return self;
+//}
+
+- (void)setGroupId:(NSString *)groupId {
+    _groupId = groupId;
+    // 取出提交状态，看是否提交
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *assignment = [defaults valueForKey:self.groupId];
+    if ([assignment isEqualToString:@"assignmentSuccess"]) {
+        self.assignmentSuccess = YES;
+    } else {
+        self.assignmentSuccess = NO;
     }
-    return self;
+    [self prepareUI];
 }
 
 - (void)updateTime {
@@ -117,11 +131,16 @@
         [button setTitle:@"收藏" forState:UIControlStateNormal];
         [button setImage:[UIImage imageNamed:@"收藏111"] forState:UIControlStateNormal];
     }
+    if ([self.delegate respondsToSelector:@selector(qxyTestToolBarClickSaveButton:)]) {
+        [self.delegate qxyTestToolBarClickSaveButton:button];
+    }
 }
 
 - (void)clickAssignmentButton:(QXYTestButton *)button {
-    if ([self.delegate respondsToSelector:@selector(qxyTestToolBarClickAssignmentButton:)]) {
-        [self.delegate qxyTestToolBarClickAssignmentButton:button];
+    if (!self.assignmentSuccess) {
+        if ([self.delegate respondsToSelector:@selector(qxyTestToolBarClickAssignmentButton:)]) {
+            [self.delegate qxyTestToolBarClickAssignmentButton:button];
+        }
     }
 }
 
@@ -149,7 +168,11 @@
 
 - (QXYTestButton *)assignmentButton {
     if (_assignmentButton == nil) {
-        _assignmentButton = [QXYTestButton testButtonWithTitleName:@"交卷" andImageName:@"交卷1"];
+        if (self.assignmentSuccess) {
+            _assignmentButton = [QXYTestButton testButtonWithTitleName:@"已交卷" andImageName:@"交卷2"];
+        } else {
+            _assignmentButton = [QXYTestButton testButtonWithTitleName:@"交卷" andImageName:@"交卷1"];
+        }
         [_assignmentButton addTarget:self action:@selector(clickAssignmentButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _assignmentButton;
@@ -159,13 +182,19 @@
     if (_timeButton == nil) {
         _timeButton = [QXYTestButton testButtonWithTitleName:@"45:00" andImageName:@"计时"];
         [_timeButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        if (!self.assignmentSuccess) {
+            self.testTime = 45 * 60;
+            self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+        } else {
+            [_timeButton setTitle:@"已交卷" forState:UIControlStateNormal];
+        }
     }
     return _timeButton;
 }
 
 - (QXYTestButton *)commentButton {
     if (_commentButton == nil) {
-        _commentButton = [QXYTestButton testButtonWithTitleName:@"评论" andImageName:@"进度"];
+        _commentButton = [QXYTestButton testButtonWithTitleName:@"答题卡" andImageName:@"进度"];
         [_commentButton addTarget:self action:@selector(clickCommentButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _commentButton;
@@ -173,7 +202,7 @@
 
 - (QXYTestButton *)moreButton {
     if (_moreButton == nil) {
-        _moreButton = [QXYTestButton testButtonWithTitleName:@"更多" andImageName:@"移除题目"];
+        _moreButton = [QXYTestButton testButtonWithTitleName:@"评论" andImageName:@"移除题目"];
         [_moreButton addTarget:self action:@selector(clickMoreButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _moreButton;

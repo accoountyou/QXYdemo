@@ -10,4 +10,9 @@
 
 @interface QXYAssess : UIViewController
 
+/// 总共多少题
+@property(nonatomic, assign) NSInteger itemNum;
+/// 答案数组
+@property(nonatomic, strong) NSArray *array;
+
 @end

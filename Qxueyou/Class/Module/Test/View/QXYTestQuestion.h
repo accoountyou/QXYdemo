@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "QXYTest.h"
+#import "QXYAnalysisView.h"
 
 @protocol QXYTestQuestionDelegate <NSObject>
 
@@ -18,6 +19,8 @@
 @end
 
 @interface QXYTestQuestion : UIView
+
+@property(nonatomic, strong) QXYAnalysisView *analysisView;
 
 @property (nonatomic ,strong) NSDictionary *answerDic;
 

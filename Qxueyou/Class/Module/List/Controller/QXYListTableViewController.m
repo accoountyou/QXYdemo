@@ -60,7 +60,6 @@
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, barItem, nil];
 }
 
-
 - (void)clickCancelButton {
     // 利用通知注销  显示登录界面
     [[NSNotificationCenter defaultCenter] postNotificationName:QXYLoginSuccessNotification object:@"Cancel"];
@@ -80,9 +79,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    QXYTestViewController *testView = [[QXYTestViewController alloc] init];
-    [self.navigationController pushViewController:testView animated:YES];
-    testView.list = self.modelArray[indexPath.row];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否开始答题" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        QXYTestViewController *testView = [[QXYTestViewController alloc] init];
+        [self.navigationController pushViewController:testView animated:YES];
+        testView.list = self.modelArray[indexPath.row];
+    }]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 

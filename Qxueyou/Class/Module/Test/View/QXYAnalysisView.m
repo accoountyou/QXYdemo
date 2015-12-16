@@ -43,13 +43,30 @@
 - (void)setTest:(QXYTest *)test {
     _test = test;
     NSDictionary *analisisResult = test.analisisResult;
-    NSString *answerTure = analisisResult[@"correctAnswers"];
-    NSString *answerAll = [NSString stringWithFormat:@"正确答案:%@, 您的答案:%@",answerTure,@"A"];
+    
+    NSString *answerTure = @"";
+    if ([analisisResult[@"correctAnswers"] isEqualToString:@"True"]) {
+        answerTure = @"对";
+    } else if ([analisisResult[@"correctAnswers"] isEqualToString:@""] || [analisisResult[@"correctAnswers"] isEqualToString:@"False"]) {
+        answerTure = @"错";
+    } else {
+        answerTure = analisisResult[@"correctAnswers"];
+    }
+    NSString *answerYour = @"未作答";
+    if (![self.answerDict[@"answer"] isEqualToString:@""]) {
+        answerYour = self.answerDict[@"answer"];
+        if ([self.answerDict[@"answer"] isEqualToString:@"0"]) {
+            answerYour = @"错";
+        } else if ([self.answerDict[@"answer"] isEqualToString:@"1"]) {
+            answerYour = @"对";
+        }
+    }
+    NSString *answerAll = [NSString stringWithFormat:@"正确答案:%@, 您的答案:%@",answerTure,answerYour];
     NSMutableAttributedString *noteString = [[NSMutableAttributedString alloc] initWithString:answerAll];
     NSUInteger greenIndex = [answerAll rangeOfString:@"正确答案:"].location + [answerAll rangeOfString:@"正确答案:"].length;
     NSRange greenRange = NSMakeRange(greenIndex, [[noteString string] rangeOfString:answerTure].length);
     NSUInteger redIndex = [answerAll rangeOfString:@"您的答案:"].location + [answerAll rangeOfString:@"您的答案:"].length;
-    NSRange redRange = NSMakeRange(redIndex, [[noteString string] rangeOfString:@"A"].length);
+    NSRange redRange = NSMakeRange(redIndex, [[noteString string] rangeOfString:answerYour].length);
     [noteString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:greenRange];
     [noteString addAttribute:NSForegroundColorAttributeName value:[UIColor cyanColor] range:redRange];
     [self.answerMore setAttributedText:noteString];
@@ -59,6 +76,20 @@
     NSInteger accuracy = [analisisResult[@"accuracy"] integerValue];
     NSInteger submitAllNumber = [analisisResult[@"submitAllNumber"] integerValue];
     NSInteger allAccuracy = [analisisResult[@"allAccuracy"] integerValue];
+    if (submitNumber == 0) {
+        submitNumber = 1;
+        submitErrorNumber = 1;
+    }
+    if (submitAllNumber == 0) {
+        submitAllNumber = 1;
+    }
+    if ([self.answerDict[@"correct"] isEqualToString:@"true"]) {
+        submitErrorNumber--;
+        accuracy = (submitNumber - submitErrorNumber) * 100.00 / submitNumber;
+        if (allAccuracy != 100) {
+            allAccuracy = (allAccuracy / 100.00 * submitAllNumber + 1) * 100.00 / submitAllNumber;
+        }
+    }
     NSString *countAll = [NSString stringWithFormat:@"个人统计:作答本题%ld, 做错%ld次, 正确率为%ld%%\n全站统计:本题共有%ld次作答,正确率为%ld%%",
                                                         submitNumber,submitErrorNumber,accuracy,submitAllNumber,allAccuracy];
     NSUInteger submitNumberIndex = [countAll rangeOfString:@"作答本题"].location + [countAll rangeOfString:@"作答本题"].length;
@@ -67,11 +98,11 @@
     NSUInteger submitAllNumberIndex = [countAll rangeOfString:@"本题共有"].location + [countAll rangeOfString:@"本题共有"].length;
     NSUInteger allAccuracyIndex = [countAll rangeOfString:@"答,正确率为"].location + [countAll rangeOfString:@"答,正确率为"].length;
     NSMutableAttributedString *countString = [[NSMutableAttributedString alloc] initWithString:countAll];
-    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(submitNumberIndex, 1)];
-    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(submitErrorNumberIndex, 1)];
-    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor cyanColor] range:NSMakeRange(accuracyIndex, 1)];
-    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(submitAllNumberIndex, 1)];
-    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor cyanColor] range:NSMakeRange(allAccuracyIndex, 1)];
+    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(submitNumberIndex, [[NSString alloc] initWithFormat:@"%lu",submitNumber].length)];
+    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(submitErrorNumberIndex, [[NSString alloc] initWithFormat:@"%lu",submitErrorNumber].length)];
+    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor cyanColor] range:NSMakeRange(accuracyIndex, [[NSString alloc] initWithFormat:@"%lu",accuracy].length)];
+    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(submitAllNumberIndex, [[NSString alloc] initWithFormat:@"%lu",submitAllNumber].length)];
+    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor cyanColor] range:NSMakeRange(allAccuracyIndex, [[NSString alloc] initWithFormat:@"%lu",allAccuracy].length)];
     [self.countMore setAttributedText:countString];
     
     CGFloat answerF = 0;

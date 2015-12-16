@@ -12,6 +12,7 @@
 #import "QXYBaseTableViewController.h"
 #import "QXYNetworkTools.h"
 #import "QXYListTableViewController.h"
+#import "QXYCommit.h"
 
 @interface AppDelegate ()
 

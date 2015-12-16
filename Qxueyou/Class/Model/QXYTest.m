@@ -36,7 +36,7 @@
         [SVProgressHUD dismiss];
         self.relate(Marray);
     } fail:^(NSError *error) {
-        NSLog(@"%@",error);
+//        NSLog(@"%@",error);
     }];
 }
 

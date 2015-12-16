@@ -17,5 +17,5 @@
 + (void)insertData:(NSString *)key json:(NSString *)json withUpdateTime:(NSString *)updateTime;
 + (NSString *)queryData:(NSString *)key;
 + (NSDictionary *)queryUpdateTimeWithKey:(NSString *)key;
-
+//+ (void)changeRecordIdWithKey:(NSString *)key andRecordId:(NSString *)recordId;
 @end

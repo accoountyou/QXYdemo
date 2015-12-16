@@ -20,18 +20,22 @@
 @property(nonatomic, copy) NSString *exerciseId;
 /// exerciseGroupId
 @property(nonatomic, copy) NSString  *exerciseGroupId;
+/// userld
+@property(nonatomic, copy) NSString *userId;
+
+@property(nonatomic, copy) NSString *classId;
 
 /// 正确答案
 @property(nonatomic, copy) NSDictionary *analisisResult;
 
-@property(nonatomic,copy)NSString * correctAnswers;
-@property(nonatomic,copy)NSString * answerU;
-@property(nonatomic,copy)NSString * analysis;
-@property(nonatomic,copy)NSString * submitNumber;
-@property(nonatomic,copy)NSString * submitErrorNumber;
-@property(nonatomic,copy)NSString * accuracy;
-@property(nonatomic,copy)NSString * submitAllNumber;
-@property(nonatomic,copy)NSString * allAccuracy;
+//@property(nonatomic,copy)NSString * correctAnswers;
+//@property(nonatomic,copy)NSString * answerU;
+//@property(nonatomic,copy)NSString * analysis;
+//@property(nonatomic,copy)NSString * submitNumber;
+//@property(nonatomic,copy)NSString * submitErrorNumber;
+//@property(nonatomic,copy)NSString * accuracy;
+//@property(nonatomic,copy)NSString * submitAllNumber;
+//@property(nonatomic,copy)NSString * allAccuracy;
 
 /// 回调block
 @property(nonatomic, copy) void (^relate)(NSArray *listArray);
